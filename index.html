@@ -7,6 +7,11 @@
     <title>NPS</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -27,6 +32,18 @@
             transform: translate(-50%, -50%);
             border: 4px solid #ffffff00;
             border-radius: 20px;
+        }
+
+        #bloco_principal_menu {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 99%;
+            padding: 20px 5px;
+            background-color: antiquewhite;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            margin: 5px;
         }
 
         #id_bloco_pesquisa {
@@ -292,6 +309,18 @@
             background-color: rgb(145, 111, 2);
         }
 
+
+        #label_calcular_nps {
+            width: 100%;
+
+        }
+        #label_calcular_nps p {
+            text-align: center;
+            font-size: 1.3em;
+            color: black;
+            font-weight: 800;
+        
+        }
         #nps_resultado_label {
             font-size: 1.5em;
             font-weight: 900;
@@ -346,57 +375,59 @@
         <p>Sistema indisponível</p>
     </div>
 
-    <div id="id_bloco_pesquisa" > 
- 
-        <h2 class="centrar">Pesquisa de NPS</h2>
-        <p class="centrar" id="atualizacao" >Base de dados de <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
+    <div id="bloco_principal_menu">
+        <div id="id_bloco_pesquisa" > 
+    
+            <h2 class="centrar">Pesquisa de NPS</h2>
+            <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
 
-        <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF:</label>
+            <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF:</label>
 
-        <input class="centrar" type="text" id="input_cpf" name="input_cpf">
-        
-        <button class="centrar" id="pesquisa">
-            Pesquisar
-        </button>
-        <div id="carregando"> 
-            <span class="loader"></span>
-        </div>
-
-    </div>
-    <div id="resumo_nps">
-        <div class="resumo_nps_filhos" style="width: 100%;">
-            <p>Calcule o NPS</p>
-        </div>
-
-        <div class="resumo_nps_filhos">
-            <img class="nps_img" src="./imagens/negativo.png">
-            <p>DETRATORES</p>
-            <input id="nps_detratores" type="number" min="0" value="0"/>
-        </div>
-
-        <div class="resumo_nps_filhos">
-            <img class="nps_img" src="./imagens/neutro.png">
-            <p>NEUTROS</p>
-            <input id="nps_neutros" type="number" min="0" value="0"/>
-        </div>
-
-        <div class="resumo_nps_filhos">
-            <img class="nps_img" src="./imagens/positivo.png">
-            <p>PROMOTORES</p>
-            <input id="nps_promotores" type="number" min="0" value="0"/>
-        </div>  
-
-        <div class="resumo_nps_filhos">
-            <img class="nps_img" src="./imagens/nps.png">
-            <p id="nps_resultado_label">NPS</p>
-            <p id="nps_resultado" >---</p>
-            <button class="centrar" id="calcular_nps">
-                Calcular
+            <input class="centrar" type="text" id="input_cpf" name="input_cpf">
+            
+            <button class="centrar" id="pesquisa">
+                Pesquisar
             </button>
-        </div>  
+            <div id="carregando"> 
+                <span class="loader"></span>
+            </div>
+
+        </div>
+        <div id="resumo_nps">
+            <div id="label_calcular_nps" class="resumo_nps_filhos">
+                <p>Calcule o NPS</p>
+            </div>
+
+            <div class="resumo_nps_filhos">
+                <img class="nps_img" src="./imagens/negativo.png">
+                <p>DETRATORES</p>
+                <input id="nps_detratores" type="number" min="0" value="0"/>
+            </div>
+
+            <div class="resumo_nps_filhos">
+                <img class="nps_img" src="./imagens/neutro.png">
+                <p>NEUTROS</p>
+                <input id="nps_neutros" type="number" min="0" value="0"/>
+            </div>
+
+            <div class="resumo_nps_filhos">
+                <img class="nps_img" src="./imagens/positivo.png">
+                <p>PROMOTORES</p>
+                <input id="nps_promotores" type="number" min="0" value="0"/>
+            </div>  
+
+            <div class="resumo_nps_filhos">
+                <img class="nps_img" src="./imagens/nps.png">
+                <p id="nps_resultado_label">NPS</p>
+                <p id="nps_resultado" >---</p>
+                <button class="centrar" id="calcular_nps">
+                    Calcular
+                </button>
+            </div>  
 
 
-    </div>    
+        </div>    
+    </div>   
     <div id="resultados">
 
     </div>
@@ -404,13 +435,3 @@
 <script src="./mainscript.js">
 </script>
 </html>
-
-
-
-
-
-
-
-
-
-
