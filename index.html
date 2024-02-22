@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./imagens/lupa.ico">
+    <title>NPS</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .bloco_login {
+        	display: block;
+            position: absolute;
+            min-width: 180px;
+            margin: 0 auto;
+            z-index: 100000;
+            background-color: rgba(255, 255, 255, 0);
+            top: 50%;
+            left: 50%;
+            padding: 10px;
+            transform: translate;
+            transform: translate(-50%, -50%);
+            border: 4px solid #ffffff00;
+            border-radius: 20px;
+        }
+
+        #id_bloco_pesquisa {
+            display: none;
+            position: relative;
+            width: min-content;
+            min-width: 300px;
+            margin: 20px auto;
+            z-index: 100000;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            box-shadow: rgb(0, 0, 0) 4px 4px 0px 0px;
+        }
+
+
+        #pesquisa {
+            position: relative;
+            display: block;
+            background-color: rgb(67, 167, 0);
+            border-radius: 5px;
+            box-shadow: rgb(8, 68, 2) 4px 4px 0px 0px;
+            padding: 10px;
+            margin: 10px auto;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            box-sizing: border-box;
+            width: auto;
+            height: auto;
+            color: #fff;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        #pesquisa:hover {
+            background-color: rgb(37, 90, 1);
+        }
+
+        #input_cpf {
+            width: 150px;
+            height: 30px;
+            display: block;
+            margin: 5px auto;
+            border-radius: 5px;
+            border: 2px solid #323232;
+            background-color: #fff;
+            box-shadow: 4px 4px #323232;
+            font-size: 15px;
+            font-weight: 600;
+            color: #323232;
+            padding: 5px 5px;
+            outline: none;
+            }
+
+        #input_cpf::placeholder {
+            color: #666;
+            opacity: 0.8;
+            }
+
+        #input_cpf:focus {
+            border: 2px solid #2d8cf0;
+            }
+
+        #label_input_cpf {
+            display: block;
+            position: relative;
+            margin: 0 auto;
+            color: black;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 900;
+        }
+
+
+
+        #resultados {
+            display: block;
+            position: relative;
+            margin: 10px auto;
+            z-index: 100000;
+            background-color: rgb(255, 255, 255);
+            padding: 10px;
+    
+        }
+
+        #tabela {
+            border: none;
+            background-color: white;
+            overflow-x:auto;
+            border-collapse: collapse;
+            border-spacing: 4px;
+        }
+
+        #tabela thead tr th {
+            background-color: #ffabe4;
+            border-radius: 0px;
+            border-right: 2px solid rgb(133, 133, 133);
+            border-left: 2px solid rgb(133, 133, 133);
+            border-top: 2px solid rgb(5, 5, 5);
+            border-bottom: 2px solid rgb(0, 0, 0);
+            color: black;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1em;
+            padding: 2px 5px;
+            
+        }
+        #tabela thead  {
+            margin-bottom: 50px;
+            border-spacing: 50px;
+        }
+
+        #tabela tbody tr td {
+            background-color: #fffdf7;
+            border-right: 2px solid rgb(133, 133, 133);
+            border-left: 2px solid rgb(133, 133, 133);
+            border-top: 2px solid rgb(0, 0, 0);
+            border-bottom: 2px solid rgb(0, 0, 0);
+            border-radius: 0px;
+            color: black;
+            font-weight: 600;
+            font-size: 0.9em;
+            padding: 2px 5px;
+        }
+
+
+        .bloco_login input {
+            width: 100%;
+            padding: 2px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1.5em;
+            color: black;
+            font-weight: 500;
+        }
+        .bloco_login input::placeholder {
+            color: black;
+            opacity: 1;
+        }
+
+        #btn_logar {
+            display: block;
+            position: relative;
+            margin: 0 auto;
+            font-size: 20px;
+
+        }
+
+        #acesso {
+            color: red;
+            display: none;
+            font-size: 20px;
+            font-weight: 900;
+            background-color: transparent;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #fora {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 2em;
+            color: red;
+            top: 50%;
+            left: 50%;
+            z-index: 100000000000000;
+            background-color: black;
+            transform: translate(-50%, -50%);
+        }
+        .centrar {
+            text-align: center;
+            display: block;
+            margin: 5px 5px;
+        }
+
+        .data_atualizacao {
+            color: #011469;
+            font-weight: 900;
+            font-size: 1.1em;
+        }
+
+
+        #carregando {
+            display: none;
+            padding: 1px 20px;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        #resumo_nps {
+            display: none;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-between;
+            width: fit-content;
+            margin: 0 auto;
+            height: fit-content;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            box-shadow: rgb(0, 0, 0) 4px 4px 0px 0px;
+        }
+
+        .resumo_nps_filhos {
+            display: flex;
+            width: fit-content;
+            margin: 0 20px;
+            height: fit-content;
+            flex-direction: column;
+            flex-wrap: nowrap;
+        }
+        .resumo_nps_filhos p{
+            text-align: center;
+            padding: 2px;
+            margin: 2px;
+        }
+        .resumo_nps_filhos input {
+            width: 50px;
+            display: block;
+            margin: 0 auto;
+            font-weight: 700;
+            font-size: 1em;
+            text-align: center;
+        }
+        .nps_img {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        #calcular_nps {
+            position: relative;
+            display: block;
+            background-color: rgb(211, 162, 0);
+            border-radius: 5px;
+            box-shadow: rgb(85, 65, 0) 4px 4px 0px 0px;
+            padding: 10px;
+            margin: 10px auto;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            box-sizing: border-box;
+            width: auto;
+            height: auto;
+            color: #fff;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            overflow: hidden;
+        }
+        #calcular_nps:hover {
+            background-color: rgb(145, 111, 2);
+        }
+
+        #nps_resultado_label {
+            font-size: 1.5em;
+            font-weight: 900;
+        }
+
+        #nps_resultado {
+            font-size: 1.5em;
+            font-weight: 900;
+        }
+
+        .loader {
+            margin: 0 auto;
+            width: 48px;
+            height: 48px;
+            display: inline-block;
+            position: relative;
+            border: 3px solid;
+            border-color:#ff7ad4 #0000 #fff #0000;
+            border-radius: 50%;
+            box-sizing: border-box;
+            animation: 1.5s rotate linear infinite;
+        }
+        .loader:before , .loader:after{
+            content: '';
+            top: 0;
+            left: 0;
+            position: absolute;
+            border: 10px solid transparent;
+            border-bottom-color:#fff;
+            transform: translate(-10px, 19px) rotate(-35deg);
+        }
+        .loader:after {
+            border-color: #ff7ad4 #0000 #0000 #0000 ;
+            transform: translate(32px, 3px) rotate(-35deg);
+        }
+        @keyframes rotate {
+            100%{    transform: rotate(360deg)}
+        }
+        
+
+    </style>
+
+</head>
+<body>
+    <div id="id_bloco_login" class="bloco_login">
+        <input id="usuario" type="text" placeholder="Usuário" required>
+        <input id="senha" type="password" placeholder="Senha"  required>
+        <button id="btn_logar" type="submit">Entrar</button>
+        <p id="acesso">Acesso Negado</p>
+    </div>
+    <div id="fora">
+        <p>Sistema indisponível</p>
+    </div>
+
+    <div id="id_bloco_pesquisa" > 
+ 
+        <h2 class="centrar">Pesquisa de NPS</h2>
+        <p class="centrar" id="atualizacao" >Base de dados de <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
+
+        <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF:</label>
+
+        <input class="centrar" type="text" id="input_cpf" name="input_cpf">
+        
+        <button class="centrar" id="pesquisa">
+            Pesquisar
+        </button>
+        <div id="carregando"> 
+            <span class="loader"></span>
+        </div>
+
+    </div>
+    <div id="resumo_nps">
+        <div class="resumo_nps_filhos" style="width: 100%;">
+            <p>Calcule o NPS</p>
+        </div>
+
+        <div class="resumo_nps_filhos">
+            <img class="nps_img" src="./imagens/negativo.png">
+            <p>DETRATORES</p>
+            <input id="nps_detratores" type="number" min="0" value="0"/>
+        </div>
+
+        <div class="resumo_nps_filhos">
+            <img class="nps_img" src="./imagens/neutro.png">
+            <p>NEUTROS</p>
+            <input id="nps_neutros" type="number" min="0" value="0"/>
+        </div>
+
+        <div class="resumo_nps_filhos">
+            <img class="nps_img" src="./imagens/positivo.png">
+            <p>PROMOTORES</p>
+            <input id="nps_promotores" type="number" min="0" value="0"/>
+        </div>  
+
+        <div class="resumo_nps_filhos">
+            <img class="nps_img" src="./imagens/nps.png">
+            <p id="nps_resultado_label">NPS</p>
+            <p id="nps_resultado" >---</p>
+            <button class="centrar" id="calcular_nps">
+                Calcular
+            </button>
+        </div>  
+
+
+    </div>    
+    <div id="resultados">
+
+    </div>
+</body>
+<script src="./mainscript.js">
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
