@@ -74,7 +74,6 @@ function pesquisar(pesquisaCPF){
             let divResultados = document.getElementById("resultados");
             divResultados.textContent = '';
             divResultados.textContent = "ERRO";
-            console.log(value);
             carregando.style = "display: none;";
         }
     )
@@ -137,7 +136,6 @@ function criarTabelaHTML(dados) {
 
         tabela.appendChild(thead);
         
-        console.log(dados);
         dados.forEach(function (linha) {
             var linhaTabela = tbody.insertRow();
 
