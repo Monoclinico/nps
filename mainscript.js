@@ -11,6 +11,8 @@ const USUARIO = "avon";
 const SENHA = "avon@2024";
 const ATIVADO = true;
 
+let dadosNPS = {};
+
 async function obterDados(link){
 
     let data = await fetch(link);
@@ -30,18 +32,16 @@ async function obterDados(link){
 
 
 function pesquisar(pesquisaCPF){
-    let divResultados = document.getElementById("resultados");
     let carregando = document.getElementById("carregando");
-    divResultados.textContent = '';
     carregando.style = "display: block;";
 
     obterDados(urldados).then(
         value => {
 
             let CPF = pesquisaCPF.toString().toLowerCase().trim()
-    
+            
             if ((CPF.length != 11) || !(possuiApenasNumeros(CPF)) || (CPF == "00000000000")) {
-                divResultados.textContent = "Nenhum NPS encontrado";
+                resultadoIncorreto("Nenhum NPS foi encontrado");
             }else{
 
                 let tabela = value.table.rows;
@@ -61,19 +61,17 @@ function pesquisar(pesquisaCPF){
                 });
 
             
-                criarTabelaHTML(filtro2);
-                //calcularNPS(filtro2);
-            }
+                dadosNPS = filtro2;
+                automatizarNPS();
 
+            }
 
            carregando.style = "display: none;";
             
         }
     ).catch(
         value => {
-            let divResultados = document.getElementById("resultados");
-            divResultados.textContent = '';
-            divResultados.textContent = "ERRO";
+            resultadoIncorreto("Erro Interno");
             carregando.style = "display: none;";
         }
     )
@@ -83,19 +81,23 @@ function possuiApenasNumeros(str) {
     return /^\d+$/.test(str);
 }
 
-function calcularNPS() {
+function calcularNPS(detrator, neutro, promotor) {
     let nps_detratores = document.getElementById("nps_detratores");
     let nps_neutros = document.getElementById("nps_neutros");
     let nps_promotores = document.getElementById("nps_promotores");
     let nps_resultado = document.getElementById("nps_resultado");
-    
-    
-    let d = parseInt(nps_detratores.value.toString().trim(), 10);
-    let n = parseInt(nps_neutros.value.toString().trim(), 10);
-    let p = parseInt(nps_promotores.value.toString().trim(), 10);
+
+    let d = parseInt(detrator);
+    let n = parseInt(neutro);
+    let p = parseInt(promotor);
+
     d = isNaN(d) ? 0 : d;
     n = isNaN(n) ? 0 : n;
     p = isNaN(p) ? 0 : p;
+
+    nps_detratores.value = d;
+    nps_neutros.value = n;
+    nps_promotores.value =  p;
 
     let soma = (d+n+p)
     let por_p = p/soma;
@@ -109,8 +111,89 @@ function calcularNPS() {
 
 }
 
-function criarTabelaHTML(dados) {
 
+function automatizarNPS() {
+    let selectElement = document.getElementById("select_meses");
+    selectElement.textContent = "";
+
+    let listaOpcoes =  dadosNPS;
+
+    let listaMeses = [];
+
+    for (let i = 0; i < listaOpcoes.length; i++) {
+        let data = obterData(listaOpcoes[i][2].f);
+        listaMeses.push(data);
+    }
+
+    listaMeses = listaMeses.filter(function(item, index, array) {
+        return array.indexOf(item) === index;
+    });
+
+    listaMeses = listaMeses.reverse();
+
+    for (let i = 0; i < listaMeses.length; i++) {
+
+      let optionElement = document.createElement("option");
+      optionElement.value = listaMeses[i];
+      optionElement.text = listaMeses[i];
+      selectElement.appendChild(optionElement);
+    }
+
+    selectElement.addEventListener("click",function (){
+
+        let pesquisaCPF = document.getElementById("input_cpf");
+        let detrator = 0;
+        let neutro = 0;
+        let promotor = 0;
+
+        let CPF = pesquisaCPF.value.toString().toLowerCase().trim();
+
+        for (let i = 0; i < dadosNPS.length; i++) {
+            let dataObtida = obterData(dadosNPS[i][2].f).toString().trim();
+            let dataAtual = this.value.toString().trim();
+            
+            
+            if (dataObtida == dataAtual) {
+
+                let valor = parseInt(dadosNPS[i][11].v);
+
+                if (valor >= 9){
+                    promotor++;
+                } else if((valor >= 7) && (valor < 9)) {
+                    neutro++;
+                }else {
+                    detrator++;
+                }
+            }
+        }
+        calcularNPS(detrator, neutro, promotor);
+
+        if ((CPF.length == 11) && (possuiApenasNumeros(CPF)) && (CPF != "00000000000")) {
+            criarTabelaHTML();
+        }
+    });
+
+    selectElement.addEventListener("change",function (){
+        selectElement.click();
+    });
+
+    selectElement.click();
+}
+
+function obterData(data) {
+    let d = data.toString().trim().split(/[\s/,:]+/);
+    let mes = d[1];
+    let ano = d[2];
+
+    return `${mes}/${ano}`;
+}
+
+function criarTabelaHTML() {
+
+    let dados = dadosNPS;
+
+    let selectElement = document.getElementById("select_meses");
+    let dataAtual = selectElement.value.toString().trim();
     let divResultados = document.getElementById("resultados");
     divResultados.textContent = '';
 
@@ -128,7 +211,6 @@ function criarTabelaHTML(dados) {
 
     thead.appendChild(trCabecalho);
 
-    
     if (dados.length > 0){
        
         let tabela = document.createElement("table");
@@ -136,53 +218,82 @@ function criarTabelaHTML(dados) {
 
         tabela.appendChild(thead);
         
-        dados.forEach(function (linha) {
-            var linhaTabela = tbody.insertRow();
+        for (let y = 0; y < dados.length;y++) {
+       
+            let data = obterData(dados[y][2].f).toString().trim();
+            if (data == dataAtual){
 
-            for (let x = 0; x < linha.length;x++) {
-                if(x == 0){//remove o CPF
-                    continue;
-                }else{
-                    var celulaTabela = linhaTabela.insertCell();
-                    let valor;
-
-                    if (x == 1 || x == 2){
-                        valor = linha[x].f;
+                var linhaTabela = tbody.insertRow();
+                for (let x = 0; x < dados[y].length;x++) {
+                    if(x == 0){
+                        continue;
                     }else{
-                        valor = linha[x].v;
-                    }
+                        var celulaTabela = linhaTabela.insertCell();
+                        let valor;
 
-                    if (x == 11){
-                        if (valor >= 9){
-                            celulaTabela.style = "background-color: #7bff7b";
-                        } else if((valor >= 7) && (valor < 9)) {
-                            celulaTabela.style = "background-color: #fffc75";
-                        }else {
-                            celulaTabela.style = "background-color: #fc7979";
+                        if (x == 1 || x == 2){
+ 
+                            valor = dados[y][x].f != null ? dados[y][x].f : "";
+                        }else{
+                            valor = dados[y][x].v != null ? dados[y][x].v : "";
                         }
+
+                        if (x == 11){
+                            if (valor >= 9){
+                                celulaTabela.classList.add("nota_boa");
+                            } else if((valor >= 7) && (valor < 9)) {
+                                celulaTabela.classList.add("nota_neutra");
+                            }else {
+                                celulaTabela.classList.add("nota_ruim");
+                            }
+                        }
+
+                        if (valor == null) {
+                            valor = "";
+                        }else{
+                            valor = valor.toString();
+                        }
+
+                        celulaTabela.textContent = valor;
+
                     }
-
-                    if (valor == null) {
-                        valor = "";
-                    }else{
-                        valor = valor.toString();
-                    }
-
-                    celulaTabela.textContent = valor;
-
                 }
             }
 
-        });
+        }
+
+
         tabela.appendChild(tbody);
         divResultados.appendChild(tabela);
     }else{
-        divResultados.textContent = "Nenhum NPS encontrado";
+        resultadoIncorreto("Nenhum NPS foi encontrado");
     }
     
 }
 
+function resultadoIncorreto(mensagem){
+    let nps_detratores = document.getElementById("nps_detratores");
+    let nps_neutros = document.getElementById("nps_neutros");
+    let nps_promotores = document.getElementById("nps_promotores");
+    let nps_resultado = document.getElementById("nps_resultado");
+    let selectElement = document.getElementById("select_meses");
+    let divResultados = document.getElementById("resultados");
+    let frase = document.createElement("p");
 
+
+    frase.innerHTML = mensagem.toString();
+    frase.style = "text-align: center;font-size: 1.3em;color: brown;font-weight: 900;";
+    divResultados.textContent = '';
+    divResultados.appendChild(frase);
+
+    nps_detratores.value = 0;
+    nps_neutros.value = 0; 
+    nps_promotores.value = 0; 
+    nps_resultado.innerHTML = "---";
+    selectElement.textContent = "";
+
+
+}
 
 function inserirAtualizacao(){
     let data_inicio = document.getElementById("data_atualizacao_inicio");
@@ -232,7 +343,7 @@ function login() {
         sessionStorage.setItem("senha", SENHA);
         inserirPesquisa();
         inserirAtualizacao();
-        inserirNPS();
+        sair();
 
     }else {
        let acesso = document.getElementById("acesso");
@@ -252,13 +363,13 @@ function inserirPesquisa() {
     })
 }
 
-
-
-function inserirNPS(){
-    let calcular_nps = document.getElementById("calcular_nps");
-    calcular_nps.addEventListener("click", calcularNPS);
+function sair(){
+    let botao_sair = document.getElementById("sair");
+    botao_sair.addEventListener("click", function () {
+        sessionStorage.clear();
+        location.reload();
+    });
 }
-
 
 
 let botao_logar = document.getElementById("btn_logar");
