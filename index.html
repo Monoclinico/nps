@@ -46,6 +46,39 @@
             margin: 5px;
         }
 
+        #bloco_usuario {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        #sair {
+            position: relative;
+            display: block;
+            background-color: rgb(255, 58, 58);
+            border-radius: 5px;
+            box-shadow: rgb(104, 35, 35) 4px 4px 0px 0px;
+            padding: 10px;
+            margin: 10px;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            box-sizing: border-box;
+            width: auto;
+            height: auto;
+            color: #fff;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        #sair:hover {
+            background-color: rgb(192, 53, 53);
+        }
+
         #id_bloco_pesquisa {
             display: none;
             position: relative;
@@ -162,7 +195,7 @@
         }
 
         #tabela tbody tr td {
-            background-color: #fffdf7;
+            background-color: #ffffff;
             border-right: 2px solid rgb(133, 133, 133);
             border-left: 2px solid rgb(133, 133, 133);
             border-top: 2px solid rgb(0, 0, 0);
@@ -219,7 +252,7 @@
             top: 50%;
             left: 50%;
             z-index: 100000000000000;
-            background-color: black;
+            background-color: rgb(216, 216, 216);
             transform: translate(-50%, -50%);
         }
         .centrar {
@@ -274,9 +307,10 @@
             width: 50px;
             display: block;
             margin: 0 auto;
-            font-weight: 700;
-            font-size: 1em;
+            font-weight: 800;
+            font-size: 1.2em;
             text-align: center;
+            border: none;
         }
         .nps_img {
             width: 100px;
@@ -284,31 +318,39 @@
             margin: 0 auto;
         }
 
-        #calcular_nps {
-            position: relative;
-            display: block;
-            background-color: rgb(211, 162, 0);
-            border-radius: 5px;
-            box-shadow: rgb(85, 65, 0) 4px 4px 0px 0px;
-            padding: 10px;
-            margin: 10px auto;
-            background-repeat: no-repeat;
-            cursor: pointer;
-            box-sizing: border-box;
-            width: auto;
-            height: auto;
-            color: #fff;
-            border: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
-            z-index: 1;
-            overflow: hidden;
-        }
-        #calcular_nps:hover {
-            background-color: rgb(145, 111, 2);
+
+        #mes_nps {
+            margin: 0 auto;
+
         }
 
+        #select_meses {
+            background-color: rgb(250, 235, 215);
+            font-size: 1.2em;
+            padding: 3px 10px;
+            font-weight: 700;
+            border-radius: 5px;
+            border: none;
+            box-shadow: rgb(156, 147, 134) 4px 4px 0px 0px;
+
+        }
+
+        .nps_quantidade {
+            text-align: center;
+
+        }
+
+        #nps_detratores {
+            color: #dd1e1e;
+        }
+
+        #nps_neutros {
+            color: #f1a515;
+        }
+
+        #nps_promotores {
+            color: #00d800;
+        }
 
         #label_calcular_nps {
             width: 100%;
@@ -329,6 +371,29 @@
         #nps_resultado {
             font-size: 1.5em;
             font-weight: 900;
+            
+        }
+
+
+        .nota_boa {
+            background-color: #7bff7b !important;
+            font-size: 1.1em !important;
+            font-weight: 800 !important;
+            text-align: center;
+        }
+
+        .nota_neutra {
+            background-color: #fffc75 !important;
+            font-size: 1.1em !important;
+            font-weight: 800 !important;
+            text-align: center;
+        }
+
+        .nota_ruim {
+            background-color: #fc7979 !important;
+            font-size: 1.1em !important;
+            font-weight: 800 !important;
+            text-align: center;
         }
 
         .loader {
@@ -372,10 +437,15 @@
         <p id="acesso">Acesso Negado</p>
     </div>
     <div id="fora">
-        <p>Sistema indisponível</p>
+        <p>Sistema em manutenção<br>Volte mais tarde</p>
     </div>
 
     <div id="bloco_principal_menu">
+        <div id="bloco_usuario">
+            <button id="sair">
+                Sair
+            </button>
+        </div>
         <div id="id_bloco_pesquisa" > 
     
             <h2 class="centrar">Pesquisa de NPS</h2>
@@ -395,36 +465,38 @@
         </div>
         <div id="resumo_nps">
             <div id="label_calcular_nps" class="resumo_nps_filhos">
+
                 <p>Calcule o NPS</p>
+                <p>Selecione o Mês</p>
+                <div id="mes_nps">
+                    <select id="select_meses">
+                    </select>
+                </div>
             </div>
 
             <div class="resumo_nps_filhos">
                 <img class="nps_img" src="./imagens/negativo.png">
-                <p>DETRATORES</p>
-                <input id="nps_detratores" type="number" min="0" value="0"/>
+                <p>DETRATORES (0 até 6)</p>
+                <input id="nps_detratores" type="number" min="0" value="0" readonly/>
             </div>
 
             <div class="resumo_nps_filhos">
                 <img class="nps_img" src="./imagens/neutro.png">
-                <p>NEUTROS</p>
-                <input id="nps_neutros" type="number" min="0" value="0"/>
+                <p>NEUTROS (7 ou 8)</p>
+                <input id="nps_neutros" type="number" min="0" value="0" readonly/>
             </div>
 
             <div class="resumo_nps_filhos">
                 <img class="nps_img" src="./imagens/positivo.png">
-                <p>PROMOTORES</p>
-                <input id="nps_promotores" type="number" min="0" value="0"/>
+                <p>PROMOTORES (9 ou 10)</p>
+                <input id="nps_promotores" type="number" min="0" value="0" readonly/>
             </div>  
 
             <div class="resumo_nps_filhos">
                 <img class="nps_img" src="./imagens/nps.png">
                 <p id="nps_resultado_label">NPS</p>
                 <p id="nps_resultado" >---</p>
-                <button class="centrar" id="calcular_nps">
-                    Calcular
-                </button>
             </div>  
-
 
         </div>    
     </div>   
