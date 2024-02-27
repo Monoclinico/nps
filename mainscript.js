@@ -38,7 +38,7 @@ function pesquisar(pesquisaCPF){
     obterDados(urldados).then(
         value => {
 
-            let CPF = pesquisaCPF.toString().toLowerCase().trim()
+            let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
             
             if ((CPF.length != 11) || !(possuiApenasNumeros(CPF)) || (CPF == "00000000000")) {
                 resultadoIncorreto("Nenhum NPS foi encontrado");
@@ -79,6 +79,11 @@ function pesquisar(pesquisaCPF){
 
 function possuiApenasNumeros(str) {
     return /^\d+$/.test(str);
+}
+
+function removerPontosEHifens(texto) {
+    var textoSemPontosEHifens = texto.replace(/\./g, '').replace(/-/g, '');
+    return textoSemPontosEHifens.toString();
 }
 
 function calcularNPS(detrator, neutro, promotor) {
@@ -146,7 +151,7 @@ function automatizarNPS() {
         let neutro = 0;
         let promotor = 0;
 
-        let CPF = pesquisaCPF.value.toString().toLowerCase().trim();
+        let CPF = removerPontosEHifens(pesquisaCPF.value.toString().toLowerCase().trim());
 
         for (let i = 0; i < dadosNPS.length; i++) {
             let dataObtida = obterData(dadosNPS[i][2].f).toString().trim();
