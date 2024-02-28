@@ -54,9 +54,10 @@ function pesquisar(pesquisaCPF){
                 let filtro2 = filtro.filter((k) =>{
                     let r1 = -1;
                     let r2 = -1;
-                    r1 = k['0'].v.toString().trim().search(CPF.toString().trim())
-                    r2 = k['0'].f.toString().trim().search(CPF.toString().trim())
-                
+                    if(k['0'] != null) {
+                        r1 = k['0'].v.toString().trim().search(CPF.toString().trim())
+                        r2 = k['0'].f.toString().trim().search(CPF.toString().trim())
+                    }
                     return ((r1 > -1) ||( r2 > -1) );
                 });
 
@@ -126,8 +127,12 @@ function automatizarNPS() {
     let listaMeses = [];
 
     for (let i = 0; i < listaOpcoes.length; i++) {
-        let data = obterData(listaOpcoes[i][2].f);
-        listaMeses.push(data);
+
+        if (listaOpcoes[i][2] != null){
+            let data = obterData(listaOpcoes[i][2].f);
+            listaMeses.push(data);
+        }
+        
     }
 
     listaMeses = listaMeses.filter(function(item, index, array) {
@@ -154,7 +159,11 @@ function automatizarNPS() {
         let CPF = removerPontosEHifens(pesquisaCPF.value.toString().toLowerCase().trim());
 
         for (let i = 0; i < dadosNPS.length; i++) {
-            let dataObtida = obterData(dadosNPS[i][2].f).toString().trim();
+            let dataObtida = "";
+            if (dadosNPS[i][2] != null){
+                dataObtida = obterData(dadosNPS[i][2].f).toString().trim();
+            }
+
             let dataAtual = this.value.toString().trim();
             
             
@@ -224,8 +233,11 @@ function criarTabelaHTML() {
         tabela.appendChild(thead);
         
         for (let y = 0; y < dados.length;y++) {
-       
-            let data = obterData(dados[y][2].f).toString().trim();
+            let data = "";
+            if (dados[y][2] != null){
+                data = obterData(dados[y][2].f).toString().trim();
+            }
+
             if (data == dataAtual){
 
                 var linhaTabela = tbody.insertRow();
@@ -235,12 +247,20 @@ function criarTabelaHTML() {
                     }else{
                         var celulaTabela = linhaTabela.insertCell();
                         let valor;
-
                         if (x == 1 || x == 2){
  
-                            valor = dados[y][x].f != null ? dados[y][x].f : "";
+                            if(dados[y][x] == null ) {
+                                valor = "";
+                            }else{
+                                valor = dados[y][x].f != null ? dados[y][x].f : "";
+                            }
+
                         }else{
-                            valor = dados[y][x].v != null ? dados[y][x].v : "";
+                            if(dados[y][x] == null ) {
+                                valor = "";
+                            }else{
+                                valor = dados[y][x].v != null ? dados[y][x].v : "";
+                            }
                         }
 
                         if (x == 11){
