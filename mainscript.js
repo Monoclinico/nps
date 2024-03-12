@@ -379,14 +379,44 @@ function login() {
 }
 
 
+async function enviarUrlViaPOST(CPF) {
+    let cpf = CPF.toString();
+    let url = `https://docs.google.com/forms/d/e/1FAIpQLScRmjFnuLLUmPn13VR3Aw9MDDR6psqY05AKNkzYkIpU2PB4ig/formResponse?&submit=Submit?usp=pp_url&entry.1358987799=${cpf}`;
+    
+    try {
+      const resposta = await fetch(url, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Origin': '',
+        },
+        body: '',
+      });
+  /*
+      if (!resposta.ok) {
+        throw new Error(`Erro na requisição: ${resposta.status} - ${resposta.statusText}`);
+      }*/
+  
+      const resultado = await resposta.json();
+      //console.log('Resposta do servidor:', resultado);
+    } catch (erro) {
+      //console.error('Erro ao enviar a URL via POST:', erro.message);
+      //throw erro;
+    }
+  }
+
+
 function inserirPesquisa() {
 
     let pesquisaBotao = document.getElementById("pesquisa");
     let pesquisaCPF = document.getElementById("input_cpf");
     pesquisaBotao.addEventListener("click", function () {
         pesquisar(pesquisaCPF.value);
+        enviarUrlViaPOST(pesquisaCPF.value);
+    
     })
 }
+
 
 function sair(){
     let botao_sair = document.getElementById("sair");
