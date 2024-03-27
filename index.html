@@ -15,7 +15,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: rgb(255, 255, 255);
+            background-color: #f3f3f3;
         }
 
         .bloco_login {
@@ -38,30 +38,67 @@
             display: none;
             flex-direction: row;
             flex-wrap: wrap;
+            justify-content: center;
             width: 99%;
-            padding: 20px 5px;
-            background-color: antiquewhite;
-            border: 2px solid #000000;
-            border-radius: 10px;
+            padding: 0 0 10px 0;
+            background-color: rgb(255, 255, 255);
+            border: 1px solid rgb(187, 187, 187);
+            border-radius: 0px;
             margin: 5px;
+            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
         }
 
         #bloco_usuario {
             display: flex;
             width: 100%;
-            flex-direction: row;
-            justify-content: flex-end;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px; 
+            border: 1px solid rgb(187, 187, 187);
+            border-radius: 0px;
+            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
         }
 
-        #sair {
+        #bloco_usuario_logo {
+            display: block;
+            width: fit-content;
+            background-color: none;
+        }
+        #bloco_usuario_logo img{
+            height: 50px;
+            width: auto;
+        }
+
+        #bloco_usuario_titulo {
+            display: block;
+            width: fit-content;
+            background-color: none;
+        }
+
+        #bloco_usuario_titulo h1{
+            display: block;
+            font-size: 1.4em;
+            width: fit-content;
+            color: #586afe;
+        }
+
+        #bloco_usuario_menu {
+            display: flex;
+            width: fit-content;
+            flex-direction: row;
+            justify-content: flex-end;
+            background-color: none;
+        }
+
+
+        .bt_opcoes_usuario {
             position: relative;
             display: block;
-            background-color: rgb(255, 58, 58);
             border-radius: 5px;
-            box-shadow: rgb(104, 35, 35) 4px 4px 0px 0px;
             padding: 10px;
-            margin: 10px;
-            background-repeat: no-repeat;
+            margin: 2px;
             cursor: pointer;
             box-sizing: border-box;
             width: auto;
@@ -75,22 +112,34 @@
             overflow: hidden;
         }
 
+        #sair {
+            background-color: rgb(255, 58, 58);
+        }
+
         #sair:hover {
             background-color: rgb(192, 53, 53);
         }
 
+        #pagina_indicadores {
+            background-color: rgb(155, 69, 217);
+        }
+
+        #pagina_indicadores:hover {
+            background-color: rgb(109, 50, 151);
+        }
+
         #id_bloco_pesquisa {
-            display: none;
+            display: block;
             position: relative;
             width: min-content;
             min-width: 300px;
-            margin: 20px auto;
+            margin: 10px;
             z-index: 100000;
             background-color: #ffffff;
             padding: 10px;
-            border: 2px solid #000000;
-            border-radius: 10px;
-            box-shadow: rgb(0, 0, 0) 4px 4px 0px 0px;
+            border: 1px solid rgb(187, 187, 187);
+            border-radius: 8px;
+            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
         }
 
 
@@ -99,7 +148,7 @@
             display: block;
             background-color: rgb(67, 167, 0);
             border-radius: 5px;
-            box-shadow: rgb(8, 68, 2) 4px 4px 0px 0px;
+            box-shadow: rgba(149, 149, 149, 0.527) 0px 0px 2px 2px;
             padding: 10px;
             margin: 10px auto;
             background-repeat: no-repeat;
@@ -128,7 +177,7 @@
             border-radius: 5px;
             border: 2px solid #323232;
             background-color: #fff;
-            box-shadow: 4px 4px #323232;
+            box-shadow: rgba(149, 149, 149, 0.527) 0px 0px 2px 2px;
             font-size: 15px;
             font-weight: 600;
             color: #323232;
@@ -158,13 +207,17 @@
 
 
         #resultados {
-            display: block;
+            display: flex;
             position: relative;
-            margin: 10px auto;
+            margin: 5px;
+            width: 99%;
             z-index: 100000;
+            flex-direction: column;
             background-color: rgb(255, 255, 255);
-            padding: 10px;
-    
+            padding: 5px;
+            border: 1px solid rgb(187, 187, 187);
+            border-radius: 0px;
+            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
         }
 
         #tabela {
@@ -285,9 +338,9 @@
             height: fit-content;
             background-color: #ffffff;
             padding: 10px;
-            border: 2px solid #000000;
-            border-radius: 10px;
-            box-shadow: rgb(0, 0, 0) 4px 4px 0px 0px;
+            border: 1px solid rgb(187, 187, 187);
+            border-radius: 8px;
+            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
         }
 
         .resumo_nps_filhos {
@@ -442,9 +495,24 @@
 
     <div id="bloco_principal_menu">
         <div id="bloco_usuario">
-            <button id="sair">
-                Sair
-            </button>
+            
+            <div id="bloco_usuario_logo">
+                <img src="imagens/logo_csu.png"/> 
+            </div>
+
+            <div id="bloco_usuario_titulo">
+                <h1>Pesquisa de NPS</h1>
+            </div>
+        
+            <div id="bloco_usuario_menu">
+                <button class="bt_opcoes_usuario" id="pagina_indicadores">
+                    Indicadores
+                </button>   
+                <button class="bt_opcoes_usuario" id="sair">
+                    Sair
+                </button>
+            </div> 
+
         </div>
         <div id="id_bloco_pesquisa" > 
     
