@@ -368,7 +368,8 @@ function login() {
         sessionStorage.setItem("senha", SENHA);
         inserirPesquisa();
         inserirAtualizacao();
-        sair();
+
+        botoesMenu();
 
     }else {
        let acesso = document.getElementById("acesso");
@@ -392,16 +393,12 @@ async function enviarUrlViaPOST(CPF) {
         },
         body: '',
       });
-  /*
-      if (!resposta.ok) {
-        throw new Error(`Erro na requisição: ${resposta.status} - ${resposta.statusText}`);
-      }*/
+
   
       const resultado = await resposta.json();
-      //console.log('Resposta do servidor:', resultado);
+      
     } catch (erro) {
-      //console.error('Erro ao enviar a URL via POST:', erro.message);
-      //throw erro;
+
     }
   }
 
@@ -418,12 +415,23 @@ function inserirPesquisa() {
 }
 
 
-function sair(){
+function botoesMenu(){
+    let extremidade = "/nps/"; // colocar / se for local host
+    let caminho = "indicadores.html";
+    let urlBase = `http://${window.location.hostname}:${window.location.port}${extremidade}${caminho}`;
+
     let botao_sair = document.getElementById("sair");
+    let botao_indicadores = document.getElementById("pagina_indicadores");
+
+    botao_indicadores.addEventListener("click", function () {
+        window.open(urlBase.toString(), "_self");
+    });
+
     botao_sair.addEventListener("click", function () {
         sessionStorage.clear();
         location.reload();
     });
+
 }
 
 
