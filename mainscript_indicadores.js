@@ -493,6 +493,7 @@ function login() {
     let input_senha = document.getElementById("senha");
     let blocoExplicacao = document.getElementById("id_bloco_explicacao");
     let bloco_principal_menu = document.getElementById("bloco_principal_menu");
+    let resultados = document.getElementById("resultados");
 
     let u = sessionStorage.getItem("usuario");
     let s = sessionStorage.getItem("senha");
@@ -505,7 +506,7 @@ function login() {
     if ((SENHA == input_senha.value.toString()) && (USUARIO == input_usuario.value.toString())){
         bloco_login.style = "display: none;";
         blocoExplicacao.style = "display: block";
-
+        resultados.style = "display: flex;";
         bloco_principal_menu.style = "display: flex;";
 
         sessionStorage.setItem("usuario", USUARIO);
