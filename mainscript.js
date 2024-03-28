@@ -349,6 +349,7 @@ function login() {
     let blocoPesquisa = document.getElementById("id_bloco_pesquisa");
     let resumo_nps = document.getElementById("resumo_nps");
     let bloco_principal_menu = document.getElementById("bloco_principal_menu");
+    let resultados = document.getElementById("resultados");
 
     let u = sessionStorage.getItem("usuario");
     let s = sessionStorage.getItem("senha");
@@ -362,6 +363,7 @@ function login() {
         bloco_login.style = "display: none;";
         blocoPesquisa.style = "display: block;";
         resumo_nps.style = "display: flex;";
+        resultados.style = "display: flex;";
         bloco_principal_menu.style = "display: flex;";
 
         sessionStorage.setItem("usuario", USUARIO);
