@@ -96,8 +96,10 @@ function pesquisar(pesquisaCPF){
     )
 }
 
-function preencherZerosCPF(cpf) {
+function preencherZerosCPF(cpfp) {
     const cpfPadrao = "00000000000";
+
+    let cpf = limparString(cpfp.toString());
 
     if (cpf.length < 11) {
         const zerosFaltantes = 11 - cpf.length;
@@ -114,6 +116,10 @@ function validarCPF(cpf) {
 function removerPontosEHifens(texto) {
     var textoSemPontosEHifens = texto.replace(/\./g, '').replace(/-/g, '');
     return textoSemPontosEHifens.toString();
+}
+
+function limparString(string) {
+    return string.replace(/[.\-\s]/g, '');
 }
 
 function validarNumero(n) {
