@@ -303,7 +303,31 @@ function criarTabelaHTML() {
 
                         break;
                     
-                    case "TMA":
+                    case "TMA (VOZ)":
+                        if (param1.toString().trim() != ""){
+                            p_label.innerHTML = `${cabec1} (${p_num})` ;
+                        }else{
+                            p_label.innerHTML = cabec1 ;
+                        }
+
+                        if (vali_num && vali_num_p){
+                            if (e_num <= p_num){
+                                p_valor.classList.add("dentro_meta");
+                            }else{
+                                p_valor.classList.add("fora_meta");
+                            }
+                        }else{
+                            p_valor.classList.add("sem_meta");
+                        }
+
+                        if (valor1.toString().trim() != ""){
+                            p_valor.innerHTML = `${e_num}`;
+                        }else{
+                            p_valor.innerHTML = "" ;
+                        }
+
+                        break;
+                    case "TMA (CHAT)":
                         if (param1.toString().trim() != ""){
                             p_label.innerHTML = `${cabec1} (${p_num})` ;
                         }else{
