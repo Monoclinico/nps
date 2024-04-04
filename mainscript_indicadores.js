@@ -1,10 +1,9 @@
+const spreadsheetID_indicadores = "1pORUAqUrp-8Kj6k1-C8u2KdOCIZ5LN9NsqyjaC3EZiI";
 
-const spreadsheetID = '1pORUAqUrp-8Kj6k1-C8u2KdOCIZ5LN9NsqyjaC3EZiI';
-
-const urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=0`;
+const urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID_indicadores}/gviz/tq?tqx=out:json&tq&gid=0`;
 
 
-const urlmeta = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=75941007`;
+const urlmeta = `https://docs.google.com/spreadsheets/d/${spreadsheetID_indicadores}/gviz/tq?tqx=out:json&tq&gid=75941007`;
 
 
 const USUARIO = "avon";
