@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./imagens/lupa.ico">
+    <link rel="stylesheet" href="./mainstyle.css">
+    <title>Chat</title>
+
+    <style>
+
+        #chat_arti {
+            display: block;
+            position: relative;
+            margin: 0 auto;
+            background-color: rgb(250, 235, 215);
+        }
+
+        #remover_logo {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            background-color: rgb(250, 235, 215);
+        }
+
+
+    </style>
+
+</head>
+<body>
+    <div id="id_bloco_login" class="bloco_login">
+        <input id="usuario" type="text" placeholder="Usuário" required>
+        <input id="senha" type="password" placeholder="Senha"  required>
+        <button id="btn_logar" type="submit">Entrar</button>
+        <p id="acesso">Acesso Negado</p>
+    </div>
+    <div id="fora">
+        <p>Estamos atualizando os dados<br>Volte mais tarde</p>
+    </div>
+
+    <div id="bloco_principal_menu">
+        <div id="bloco_usuario">
+            
+            <div id="bloco_usuario_logo">
+                <img src="imagens/logo_csu.png"/> 
+            </div>
+
+            <div id="bloco_usuario_titulo">
+                <h1>CHAT</h1>
+            </div>
+        
+            <div id="bloco_usuario_menu">
+                <button class="bt_opcoes_usuario" id="pagina_nps">
+                    NPS
+                </button>   
+                <button class="bt_opcoes_usuario" id="pagina_indicadores">
+                    Indicadores
+                </button>   
+                <button class="bt_opcoes_usuario" id="pagina_chat">
+                    CHAT
+                </button>  
+                <button class="bt_opcoes_usuario" id="sair">
+                    Sair
+                </button>
+            </div> 
+
+        </div>
+        <div id="chat_arti">
+            <div id="artibot-1710130803791"></div>
+            <div id="remover_logo"></div>
+        </div>
+        
+    </div>   
+</body>
+<script src="./mainscript_chat.js">
+</script>
+</html>
