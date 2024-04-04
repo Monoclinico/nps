@@ -4,129 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./imagens/lupa.ico">
+    <link rel="stylesheet" href="./mainstyle.css">
     <title>NPS</title>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f3f3f3;
-        }
-
-        .bloco_login {
-        	display: block;
-            position: absolute;
-            min-width: 180px;
-            margin: 0 auto;
-            z-index: 100000;
-            background-color: rgba(255, 255, 255, 0);
-            top: 50%;
-            left: 50%;
-            padding: 10px;
-            transform: translate;
-            transform: translate(-50%, -50%);
-            border: 4px solid #ffffff00;
-            border-radius: 20px;
-        }
-
-        #bloco_principal_menu {
-            display: none;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 99%;
-            padding: 0 0 10px 0;
-            background-color: rgb(255, 255, 255);
-            border: 1px solid rgb(187, 187, 187);
-            border-radius: 0px;
-            margin: 5px;
-            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
-        }
-
-        #bloco_usuario {
-            display: flex;
-            width: 100%;
-            height: 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px; 
-            border: 1px solid rgb(187, 187, 187);
-            border-radius: 0px;
-            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
-        }
-
-        #bloco_usuario_logo {
-            display: block;
-            width: fit-content;
-            background-color: none;
-        }
-        #bloco_usuario_logo img{
-            height: 50px;
-            width: auto;
-        }
-
-        #bloco_usuario_titulo {
-            display: block;
-            width: fit-content;
-            background-color: none;
-        }
-
-        #bloco_usuario_titulo h1{
-            display: block;
-            font-size: 1.4em;
-            width: fit-content;
-            color: #586afe;
-        }
-
-        #bloco_usuario_menu {
-            display: flex;
-            width: fit-content;
-            flex-direction: row;
-            justify-content: flex-end;
-            background-color: none;
-        }
-
-
-        .bt_opcoes_usuario {
-            position: relative;
-            display: block;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 2px;
-            cursor: pointer;
-            box-sizing: border-box;
-            width: auto;
-            height: auto;
-            color: #fff;
-            border: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        #sair {
-            background-color: rgb(255, 58, 58);
-        }
-
-        #sair:hover {
-            background-color: rgb(192, 53, 53);
-        }
-
-        #pagina_indicadores {
-            background-color: rgb(155, 69, 217);
-        }
-
-        #pagina_indicadores:hover {
-            background-color: rgb(109, 50, 151);
-        }
 
         #id_bloco_pesquisa {
             display: block;
@@ -258,60 +139,6 @@
             font-weight: 600;
             font-size: 0.9em;
             padding: 2px 5px;
-        }
-
-
-        .bloco_login input {
-            width: 100%;
-            padding: 2px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            font-size: 1.5em;
-            color: black;
-            font-weight: 500;
-        }
-        .bloco_login input::placeholder {
-            color: black;
-            opacity: 1;
-        }
-
-        #btn_logar {
-            display: block;
-            position: relative;
-            margin: 0 auto;
-            font-size: 20px;
-
-        }
-
-        #acesso {
-            color: red;
-            display: none;
-            font-size: 20px;
-            font-weight: 900;
-            background-color: transparent;
-            margin: 0 auto;
-            text-align: center;
-        }
-        #fora {
-            display: none;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            font-size: 2em;
-            color: red;
-            top: 50%;
-            left: 50%;
-            z-index: 100000000000000;
-            background-color: rgb(216, 216, 216);
-            transform: translate(-50%, -50%);
-        }
-        .centrar {
-            text-align: center;
-            display: block;
-            margin: 5px 5px;
         }
 
         .data_atualizacao {
@@ -505,9 +332,15 @@
             </div>
         
             <div id="bloco_usuario_menu">
+                <button class="bt_opcoes_usuario" id="pagina_nps">
+                    NPS
+                </button>   
                 <button class="bt_opcoes_usuario" id="pagina_indicadores">
                     Indicadores
                 </button>   
+                <button class="bt_opcoes_usuario" id="pagina_chat">
+                    CHAT
+                </button>  
                 <button class="bt_opcoes_usuario" id="sair">
                     Sair
                 </button>
