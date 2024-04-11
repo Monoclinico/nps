@@ -132,6 +132,7 @@ body {
 
 #pagina_chat {
     background-color: rgb(27, 43, 187);
+    display: none;
 }
 
 #pagina_chat:hover {
