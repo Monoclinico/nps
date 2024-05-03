@@ -42,7 +42,7 @@ function pesquisar(pesquisaCPF){
             let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
             
             if (validarCPF(CPF)) {
-                resultadoIncorreto("Nenhum NPS foi encontrado");
+                resultadoIncorreto("Nenhum registro foi encontrado");
             }else{
 
                 let tabela = value.table.rows;
@@ -478,7 +478,7 @@ function criarTabelaHTML() {
         }
 
     }else{
-        resultadoIncorreto("Nenhum NPS foi encontrado");
+        resultadoIncorreto("Nenhum registro foi encontrado");
     }
     
 }
