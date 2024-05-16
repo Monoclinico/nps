@@ -10,6 +10,10 @@ const ATIVADO = true;
 
 let dadosNPS = {};
 
+let objColunas = {};
+
+let CPF = "";
+
 async function obterDados(link){
 
     let data = await fetch(link);
@@ -35,23 +39,36 @@ function pesquisar(pesquisaCPF){
     obterDados(urldados).then(
         value => {
 
-            let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
+            CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
             
             if (validarCPF(CPF)) {
 
                 let tabela = value.table.rows;
-                
+                let colunas1 = value.table.cols;
+
                 let filtro = tabela.map((k) =>{
                     return k['c'];
                 });
 
-                
+                let listaC = colunas1.map((coluna) => {
+                    return coluna.label;
+                });
+
+                objColunas = criarObjetoDeLista(listaC);
+
+                let iCPF = parseInt(encontrarChavePorValor(objColunas, "CPF"));
+            
                 let filtro2 = filtro.filter((k) =>{
                     let r1 = -1;
                     let r2 = -1;
-                    if(k['0'] != null) {
-                        r1 = k['0'].v.toString().trim().search(CPF.toString().trim())
-                        r2 = k['0'].f.toString().trim().search(CPF.toString().trim())
+                    if(k[iCPF] != null) {
+                        if (k[iCPF].v != null){
+                            r1 = preencherZerosCPF(k[iCPF].v.toString().trim()).search(CPF);
+                        }
+                        if(k[iCPF].f != null) {
+                            r2 = preencherZerosCPF(k[iCPF].f.toString().trim()).search(CPF);
+                        }
+
                     }
                     return ((r1 > -1) ||( r2 > -1) );
                 });
@@ -69,6 +86,7 @@ function pesquisar(pesquisaCPF){
         }
     ).catch(
         value => {
+            console.log(value);
             resultadoIncorreto("Erro Interno");
             carregando.style = "display: none;";
         }
@@ -111,15 +129,18 @@ function automatizarNPS() {
     let selectElement = document.getElementById("select_meses");
     selectElement.textContent = "";
 
-    let listaOpcoes =  dadosNPS;
-
     let listaMeses = [];
 
-    for (let i = 0; i < listaOpcoes.length; i++) {
+    let iData = parseInt(encontrarChavePorValor(objColunas, "Data/Hora da Opinião"));
+    let iNota = parseInt(encontrarChavePorValor(objColunas, "Nota"));
 
-        if (listaOpcoes[i][2] != null){
-            let data = obterData(listaOpcoes[i][2].f);
-            listaMeses.push(data);
+    for (let i = 0; i < dadosNPS.length; i++) {
+
+        if (dadosNPS[i][iData] != null){
+            if (dadosNPS[i][iData].f != null){
+                let data = obterData(dadosNPS[i][iData].f);
+                listaMeses.push(data);
+            }
         }
         
     }
@@ -140,17 +161,17 @@ function automatizarNPS() {
 
     selectElement.addEventListener("click",function (){
 
-        let pesquisaCPF = document.getElementById("input_cpf");
         let detrator = 0;
         let neutro = 0;
         let promotor = 0;
 
-        let CPF = removerPontosEHifens(pesquisaCPF.value.toString().toLowerCase().trim());
-
         for (let i = 0; i < dadosNPS.length; i++) {
             let dataObtida = "";
-            if (dadosNPS[i][2] != null){
-                dataObtida = obterData(dadosNPS[i][2].f).toString().trim();
+
+            if (dadosNPS[i][iData] != null){
+                if (dadosNPS[i][iData].f != null){
+                    dataObtida = obterData(dadosNPS[i][iData].f);
+                }
             }
 
             let dataAtual = this.value.toString().trim();
@@ -158,22 +179,31 @@ function automatizarNPS() {
             
             if (dataObtida == dataAtual) {
 
-                let valor = parseInt(dadosNPS[i][11].v);
+                let valor = -1;
+                if (dadosNPS[i][iNota] != null){
+                    if (dadosNPS[i][iNota].v != null){
+                        valor = parseInt(dadosNPS[i][iNota].v);
+                    }
+                }
 
                 if (valor >= 9){
                     promotor++;
                 } else if((valor >= 7) && (valor < 9)) {
                     neutro++;
                 }else {
-                    detrator++;
+                    if (valor != -1){
+                        detrator++;
+                    }
                 }
+
             }
         }
+
         calcularNPS(detrator, neutro, promotor);
 
-        if (validarCPF(CPF)) {
-            criarTabelaHTML();
-        }
+        
+        criarTabelaHTML();
+        
     });
 
     selectElement.addEventListener("change",function (){
@@ -183,76 +213,99 @@ function automatizarNPS() {
     selectElement.click();
 }
 
+
+
 function obterData(data) {
     let d = data.toString().trim().split(/[\s/,:]+/);
-    let mes = d[1];
-    let ano = d[2];
+    let mes = "";
+    let ano = "";
+    if (d[1].length > 2){
+        mes = d[1].substring(d[1].length - 2);
+    }else{
+        mes = (d[1] ?? "").padStart(2, "0");
+    }
+
+    if (d[2].length > 2){
+        ano = d[2].substring(d[2].length - 2);
+    }else{
+        ano = (d[2] ?? "").padStart(2, "0");
+    }
 
     return `${mes}/${ano}`;
 }
 
 function criarTabelaHTML() {
 
-    let dados = dadosNPS;
+    let iData = parseInt(encontrarChavePorValor(objColunas, "Data/Hora da Opinião"));
+    let iData0 = parseInt(encontrarChavePorValor(objColunas, "Data/Hora do Disparo"));
+    let iCPF = parseInt(encontrarChavePorValor(objColunas, "CPF"));
+    let iNota = parseInt(encontrarChavePorValor(objColunas, "Nota"));
+
 
     let selectElement = document.getElementById("select_meses");
     let dataAtual = selectElement.value.toString().trim();
+
     let divResultados = document.getElementById("resultados");
     divResultados.textContent = '';
-
-    var cabecalhos = ["Data/Hora do Disparo", "Data/Hora da Opinião", "Nome", "Meio de Contato", "Motivo 1", "Motivo 2", "Motivo 3", "Usuário (Usuário Proprietário)", "Protocolo de Atendimento", "Canal", "Nota", "Comentário"];
 
     var thead = document.createElement("thead");
     var tbody = document.createElement("tbody");
     var trCabecalho = document.createElement("tr");
 
-    cabecalhos.forEach(function(cabecalho) {
-        var th = document.createElement("th");
-        th.textContent = cabecalho;
-        trCabecalho.appendChild(th);
-    });
+
+    for (const chave in objColunas) {
+        if (chave != iCPF) {
+            let th = document.createElement("th");
+            th.textContent = objColunas[chave];
+            trCabecalho.appendChild(th);
+        }
+    }
 
     thead.appendChild(trCabecalho);
 
-    if (dados.length > 0){
+    if (dadosNPS.length > 0){
        
         let tabela = document.createElement("table");
         tabela.setAttribute("id","tabela");
 
         tabela.appendChild(thead);
         
-        for (let y = 0; y < dados.length;y++) {
+        for (let y = 0; y < dadosNPS.length;y++) {
+
             let data = "";
-            if (dados[y][2] != null){
-                data = obterData(dados[y][2].f).toString().trim();
+
+            if (dadosNPS[y][iData] != null){
+                if (dadosNPS[y][iData].f != null){
+                    data = obterData(dadosNPS[y][iData].f);
+                }
             }
 
             if (data == dataAtual){
 
                 var linhaTabela = tbody.insertRow();
-                for (let x = 0; x < dados[y].length;x++) {
-                    if(x == 0){
+                for (let x = 0; x < dadosNPS[y].length;x++) {
+                    if(x == iCPF){
                         continue;
                     }else{
                         var celulaTabela = linhaTabela.insertCell();
                         let valor;
-                        if (x == 1 || x == 2){
+                        if (x == iData || x == iData0){
  
-                            if(dados[y][x] == null ) {
+                            if(dadosNPS[y][x] == null ) {
                                 valor = "";
                             }else{
-                                valor = dados[y][x].f != null ? dados[y][x].f : "";
+                                valor = dadosNPS[y][x].f != null ? dadosNPS[y][x].f : "";
                             }
 
                         }else{
-                            if(dados[y][x] == null ) {
+                            if(dadosNPS[y][x] == null ) {
                                 valor = "";
                             }else{
-                                valor = dados[y][x].v != null ? dados[y][x].v : "";
+                                valor = dadosNPS[y][x].v != null ? dadosNPS[y][x].v : "";
                             }
                         }
 
-                        if (x == 11){
+                        if (x == iNota){
                             if (valor >= 9){
                                 celulaTabela.classList.add("nota_boa");
                             } else if((valor >= 7) && (valor < 9)) {
@@ -279,6 +332,7 @@ function criarTabelaHTML() {
 
         tabela.appendChild(tbody);
         divResultados.appendChild(tabela);
+        
     }else{
         resultadoIncorreto("Nenhum NPS foi encontrado");
     }

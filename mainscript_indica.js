@@ -94,24 +94,6 @@ function pesquisar(pesquisaCPF){
     )
 }
 
-function preencherZerosCPF(cpfp) {
-    const cpfPadrao = "00000000000";
-
-    let cpf = limparString(cpfp.toString());
-
-    if (cpf.length < 11) {
-        const zerosFaltantes = 11 - cpf.length;
-        cpf = cpfPadrao.substring(0, zerosFaltantes) + cpf;
-    }
-
-    return cpf;
-}
-
-
-function limparString(string) {
-    return string.replace(/[.\-\s]/g, '');
-}
-
 function validarNumero(n) {
     let numberPattern = /^[0-9]+(?:[,\.][0-9]+)?$/;
     return numberPattern.test(n);

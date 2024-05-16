@@ -13,13 +13,13 @@ function removerPontosEHifens(texto) {
     if (texto != null ){
         let t = texto.toString();
         let t2 = t.toString().replace(/\./g, '').replace(/-/g, '');
-        return t2;
+        return t2.trim();
     }
     return "";
 }
 
 function inserirBotoesMenu(){
-    let extremidade = "/nps/"; // colocar / se for local host e /nps/ se for github
+    let extremidade = "/"; // colocar / se for local host e /nps/ se for github
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
     let caminho_chat = "chat.html";
@@ -102,4 +102,39 @@ function startSite(estado){
 
     }
 
+}
+
+function criarObjetoDeLista(lista) {
+    const objeto = {};
+    for (let indice = 0; indice < lista.length; indice++) {
+        objeto[String(indice)] = lista[indice];
+    }
+    return objeto;
+}
+
+function encontrarChavePorValor(objeto, valor) {
+    for (const chave in objeto) {
+        if (objeto[chave].toString().toUpperCase() === valor.toString().toUpperCase()) {
+            return chave;
+        }
+    }
+    return null; // Retorna null se o valor não for encontrado em nenhuma chave
+}
+
+function preencherZerosCPF(cpfp) {
+    const cpfPadrao = "00000000000";
+
+    let cpf = limparString(cpfp.toString());
+
+    if (cpf.length < 11) {
+        const zerosFaltantes = 11 - cpf.length;
+        cpf = cpfPadrao.substring(0, zerosFaltantes) + cpf;
+    }
+
+    return cpf;
+}
+
+
+function limparString(string) {
+    return string.replace(/[.\-\s]/g, '');
 }
