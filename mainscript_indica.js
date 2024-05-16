@@ -518,43 +518,10 @@ function inserirPesquisa() {
 }
 
 
-function botoesMenu(){
-    let extremidade = "/"; // colocar / se for local host e /nps/ se for github
-    let caminho_nps = "index.html";
-    let caminho_indicadores = "indicadores.html";
-    let caminho_chat = "chat.html";
-
-    let urlBase = `http://${window.location.hostname}:${window.location.port}${extremidade}`;
-
-    let botao_sair = document.getElementById("sair");
-    let botao_nps = document.getElementById("pagina_nps");
-    let botao_indicadores = document.getElementById("pagina_indicadores");
-    let botao_chat = document.getElementById("pagina_chat");
-
-    botao_nps.addEventListener("click", function () {
-        let url = `${urlBase}${caminho_nps}`; 
-        window.open(url.toString(), "_self");
-    });
-    botao_indicadores.addEventListener("click", function () {
-        let url = `${urlBase}${caminho_indicadores}`; 
-        window.open(url.toString(), "_self");
-    });
-    botao_chat.addEventListener("click", function () {
-        let url = `${urlBase}${caminho_chat}`; 
-        window.open(url.toString(), "_self");
-    });
-
-    botao_sair.addEventListener("click", function () {
-        sessionStorage.clear();
-        location.reload();
-    });
-
-}
-
 function insirirConteudo(){
     inserirPesquisa();
     inserirAtualizacao();
-    botoesMenu();
+    inserirBotoesMenu();
 }
 
 startSite(ATIVADO);
