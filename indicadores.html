@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="./imagens/lupa.ico">
+    <link rel="icon" type="image/x-icon" href="./imagens/logo_csu.ico">
     <link rel="stylesheet" href="./mainstyle.css">
     <title>Indicadores</title>
 
@@ -24,7 +24,7 @@
         }
 
         #id_bloco_explicacao {
-            display: none;
+            display: block;
             flex-direction: row;
             flex-wrap: wrap;
             width: 99%;
@@ -121,7 +121,7 @@
         }
 
         #resultados {
-            display: none;
+            display: flex;
             position: relative;
             margin: 5px;
             width: 99%;
@@ -251,108 +251,110 @@
 
 </head>
 <body>
-    <div id="id_bloco_login" class="bloco_login">
-        <input id="usuario" type="text" placeholder="Usuário" required>
-        <input id="senha" type="password" placeholder="Senha"  required>
-        <button id="btn_logar" type="submit">Entrar</button>
-        <p id="acesso">Acesso Negado</p>
-    </div>
-    <div id="fora">
-        <p>Estamos atualizando os dados<br>Volte mais tarde</p>
-    </div>
-
-    <div id="bloco_principal_menu">
-        <div id="bloco_usuario">
-            
-            <div id="bloco_usuario_logo">
-                <img src="imagens/logo_csu.png"/> 
-            </div>
-
-            <div id="bloco_usuario_titulo">
-                <h1>Pesquisa de Indicadores</h1>
-            </div>
-        
-            <div id="bloco_usuario_menu">
-                <button class="bt_opcoes_usuario" id="pagina_nps">
-                    NPS
-                </button>   
-                <button class="bt_opcoes_usuario" id="pagina_indicadores">
-                    Indicadores
-                </button>   
-                <button class="bt_opcoes_usuario" id="pagina_chat">
-                    CHAT
-                </button>  
-                <button class="bt_opcoes_usuario" id="sair">
-                    Sair
-                </button>
-            </div> 
-
+    <div id="mascara_login">
+        <div id="id_bloco_login" class="bloco_login">
+            <input id="usuario" type="text" placeholder="Usuário" required>
+            <input id="senha" type="password" placeholder="Senha"  required>
+            <button id="btn_logar" type="submit">Entrar</button>
+            <p id="acesso">Acesso Negado</p>
         </div>
-        <div id="id_bloco_pesquisa" > 
-    
-            <h2 class="centrar">Pesquisa de Indicadores</h2>
-            <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
+        <div id="fora">
+            <p>Estamos atualizando os dados<br>Volte mais tarde</p>
+        </div>
+    </div>
+    <div id="mascara_conteudo">
+        <div id="bloco_principal_menu">
+            <div id="bloco_usuario">
+                
+                <div id="bloco_usuario_logo">
+                    <img src="imagens/logo_csu.png"/> 
+                </div>
 
-            <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
-
-            <input class="centrar" type="text" id="input_cpf" name="input_cpf">
+                <div id="bloco_usuario_titulo">
+                    <h1>Pesquisa de Indicadores</h1>
+                </div>
             
-            <button class="centrar" id="pesquisa">
-                Pesquisar
-            </button>
-            <div id="carregando"> 
-                <span class="loader"></span>
-            </div>
+                <div id="bloco_usuario_menu">
+                    <button class="bt_opcoes_usuario" id="pagina_nps">
+                        NPS
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_indicadores">
+                        Indicadores
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_chat">
+                        CHAT
+                    </button>  
+                    <button class="bt_opcoes_usuario" id="sair">
+                        Sair
+                    </button>
+                </div> 
 
-        </div>  
-        <div id="id_bloco_legenda" > 
-            <p>Legenda</p>
+            </div>
+            <div id="id_bloco_pesquisa" > 
+
+                <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
+
+                <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
+
+                <input class="centrar" type="text" id="input_cpf" name="input_cpf">
+                
+                <button class="centrar" id="pesquisa">
+                    Pesquisar
+                </button>
+                <div id="carregando"> 
+                    <span class="loader"></span>
+                </div>
+
+            </div>  
+            <div id="id_bloco_legenda" > 
+                <p>Legenda</p>
+                <ul>
+                    <li>
+                        <span class="dentro_meta">VERDE</span> -> DENTRO DA META
+                    </li>
+                    <li>
+                        <span class="fora_meta">VERMELHO</span> -> FORA DA META
+                    </li>
+                    <li>  
+                        <span class="sem_meta">AZUL</span> -> SERÁ LANÇADO OU NÃO TEM.
+                    </li>
+                </ul>  
+            </div> 
+        </div>   
+        <div id="resultados">
+            
+        </div>
+        <div id="id_bloco_explicacao" > 
             <ul>
                 <li>
-                    <span class="dentro_meta">VERDE</span> -> DENTRO DA META
+                    <span style="font-weight: 700;">ABS:</span>
+        Todo o tempo ausente que você tem na operação, seja por falta ou atraso.
+        O cálculo é feito pegando o tempo que você tem de escala (06:20), divido pelo tempo que você não esteve aqui, gera assim a porcentagem de ausência.
                 </li>
                 <li>
-                    <span class="fora_meta">VERMELHO</span> -> FORA DA META
+                    <span style="font-weight: 700;">Aderência:</span>
+                    Quanto mais próximo você tira a pausa do horário estabelecido, maior a chance de você ter 100% de aderência.
                 </li>
-                <li>  
-                    <span class="sem_meta">AZUL</span> -> SERÁ LANÇADO OU NÃO TEM.
+                <dli>
+                    <span style="font-weight: 700;">Qualidade:</span>
+                    Suas avaliações e sinalizações das ligações ou chat.
                 </li>
-            </ul>  
-        </div> 
-    </div>   
-    <div id="resultados">
-        
+                <li>
+                    <span style="font-weight: 700;">TMA:</span>
+                    Tempo média de atendimento, é feito o cálculo através do tempo total que você ficou atendendo divido pela quantidade de ligações.
+                </li>
+                <li>
+                    <span style="font-weight: 700;">Tabulação:</span>
+                    Quantidade de registros feitos conforme quantidade de ligações que você atendeu.
+                </li>
+                <li>
+                    <span style="font-weight: 700;">NCG:</span>
+                    Nota 0 na qualidade, conhecido como sinalização grave.
+                </li>
+            </ul>
+        </div>  
     </div>
-    <div id="id_bloco_explicacao" > 
-        <ul>
-            <li>
-                <span style="font-weight: 700;">ABS:</span>
-    Todo o tempo ausente que você tem na operação, seja por falta ou atraso.
-    O cálculo é feito pegando o tempo que você tem de escala (06:20), divido pelo tempo que você não esteve aqui, gera assim a porcentagem de ausência.
-            </li>
-            <li>
-                <span style="font-weight: 700;">Aderência:</span>
-                Quanto mais próximo você tira a pausa do horário estabelecido, maior a chance de você ter 100% de aderência.
-            </li>
-            <dli>
-                <span style="font-weight: 700;">Qualidade:</span>
-                Suas avaliações e sinalizações das ligações ou chat.
-            </li>
-            <li>
-                <span style="font-weight: 700;">TMA:</span>
-                Tempo média de atendimento, é feito o cálculo através do tempo total que você ficou atendendo divido pela quantidade de ligações.
-            </li>
-            <li>
-                <span style="font-weight: 700;">Tabulação:</span>
-                Quantidade de registros feitos conforme quantidade de ligações que você atendeu.
-            </li>
-            <li>
-                <span style="font-weight: 700;">NCG:</span>
-                Nota 0 na qualidade, conhecido como sinalização grave.
-            </li>
-        </ul>
-    </div>  
 </body>
-<script src="./mainscript_indica.js">
-</script>
+<script src="./fun_global.js"></script>
+<script src="./mainscript_indica.js"></script>
 </html>

@@ -6,8 +6,6 @@ let urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID_indicador
 let urlmeta = `https://docs.google.com/spreadsheets/d/${spreadsheetID_indicadores}/gviz/tq?tqx=out:json&tq&gid=75941007`;
 
 
-const USUARIO = "avon";
-const SENHA = "avon@2024";
 const ATIVADO = true;
 
 let dadosIndicadores = {};
@@ -40,11 +38,9 @@ function pesquisar(pesquisaCPF){
         value => {
 
             let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
-            
-            if (validarCPF(CPF)) {
-                resultadoIncorreto("Nenhum registro foi encontrado");
-            }else{
 
+            if (validarCPF(CPF)) {
+           
                 let tabela = value.table.rows;
 
                 dadosIndicadoresCabecalho = value.table.cols;
@@ -81,6 +77,9 @@ function pesquisar(pesquisaCPF){
 
                 dadosIndicadores = filtro2;
                 criarTabelaHTML();
+
+            }else{
+                resultadoIncorreto("Nenhum registro foi encontrado");
             }
 
            carregando.style = "display: none;";
@@ -108,14 +107,6 @@ function preencherZerosCPF(cpfp) {
     return cpf;
 }
 
-function validarCPF(cpf) {
-    return ((cpf.length != 11) || !(/^\d+$/.test(cpf)) || (cpf == "00000000000"));
-}
-
-function removerPontosEHifens(texto) {
-    var textoSemPontosEHifens = texto.replace(/\./g, '').replace(/-/g, '');
-    return textoSemPontosEHifens.toString();
-}
 
 function limparString(string) {
     return string.replace(/[.\-\s]/g, '');
@@ -516,44 +507,6 @@ function inserirAtualizacao(){
     )
 }
 
-function login() {
-    let bloco_login = document.getElementById("id_bloco_login");
-    let input_usuario = document.getElementById("usuario");
-    let input_senha = document.getElementById("senha");
-    let blocoExplicacao = document.getElementById("id_bloco_explicacao");
-    let bloco_principal_menu = document.getElementById("bloco_principal_menu");
-    let resultados = document.getElementById("resultados");
-
-    let u = sessionStorage.getItem("usuario");
-    let s = sessionStorage.getItem("senha");
-
-    if((u == USUARIO) && (s == SENHA)){
-        input_usuario.value =  sessionStorage.getItem("usuario");
-        input_senha.value = sessionStorage.getItem("senha");
-    }
-    
-    if ((SENHA == input_senha.value.toString()) && (USUARIO == input_usuario.value.toString())){
-        bloco_login.style = "display: none;";
-        blocoExplicacao.style = "display: block";
-        resultados.style = "display: flex;";
-        bloco_principal_menu.style = "display: flex;";
-
-        sessionStorage.setItem("usuario", USUARIO);
-        sessionStorage.setItem("senha", SENHA);
-        inserirPesquisa();
-        inserirAtualizacao();
-        botoesMenu();
-
-    }else {
-       let acesso = document.getElementById("acesso");
-       acesso.style = " display: block;";
-    }
-    
-
-}
-
-
-
 function inserirPesquisa() {
 
     let pesquisaBotao = document.getElementById("pesquisa");
@@ -566,7 +519,7 @@ function inserirPesquisa() {
 
 
 function botoesMenu(){
-    let extremidade = "/nps/"; // colocar / se for local host e /nps/ se for github
+    let extremidade = "/"; // colocar / se for local host e /nps/ se for github
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
     let caminho_chat = "chat.html";
@@ -598,19 +551,10 @@ function botoesMenu(){
 
 }
 
-
-let botao_logar = document.getElementById("btn_logar");
-
-if (ATIVADO){
-    botao_logar.addEventListener("click",login);
-    let u = sessionStorage.getItem("usuario");
-    let s = sessionStorage.getItem("senha");
-
-    if((u == USUARIO) && (s == SENHA)){
-        login();
-    }
-
-}else{
-    document.getElementById("fora").style.display = "block";
-
+function insirirConteudo(){
+    inserirPesquisa();
+    inserirAtualizacao();
+    botoesMenu();
 }
+
+startSite(ATIVADO);

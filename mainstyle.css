@@ -8,6 +8,14 @@ body {
     background-color: #f3f3f3;
 }
 
+#mascara_login {
+    display: block;
+}
+
+#mascara_conteudo {
+    display: none;
+}
+
 .bloco_login {
     display: block;
     position: absolute;
@@ -25,7 +33,7 @@ body {
 }
 
 #bloco_principal_menu {
-    display: none;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;

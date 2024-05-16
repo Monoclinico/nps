@@ -6,9 +6,6 @@ const urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/t
 
 const urlmeta = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=1037073560`;
 
-
-const USUARIO = "avon";
-const SENHA = "avon@2024";
 const ATIVADO = true;
 
 let dadosNPS = {};
@@ -40,9 +37,7 @@ function pesquisar(pesquisaCPF){
 
             let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
             
-            if ((CPF.length != 11) || !(possuiApenasNumeros(CPF)) || (CPF == "00000000000")) {
-                resultadoIncorreto("Nenhum NPS foi encontrado");
-            }else{
+            if (validarCPF(CPF)) {
 
                 let tabela = value.table.rows;
                 
@@ -65,6 +60,8 @@ function pesquisar(pesquisaCPF){
                 dadosNPS = filtro2;
                 automatizarNPS();
 
+            }else{
+                resultadoIncorreto("Nenhum NPS foi encontrado");
             }
 
            carregando.style = "display: none;";
@@ -78,14 +75,6 @@ function pesquisar(pesquisaCPF){
     )
 }
 
-function possuiApenasNumeros(str) {
-    return /^\d+$/.test(str);
-}
-
-function removerPontosEHifens(texto) {
-    var textoSemPontosEHifens = texto.replace(/\./g, '').replace(/-/g, '');
-    return textoSemPontosEHifens.toString();
-}
 
 function calcularNPS(detrator, neutro, promotor) {
     let nps_detratores = document.getElementById("nps_detratores");
@@ -182,7 +171,7 @@ function automatizarNPS() {
         }
         calcularNPS(detrator, neutro, promotor);
 
-        if ((CPF.length == 11) && (possuiApenasNumeros(CPF)) && (CPF != "00000000000")) {
+        if (validarCPF(CPF)) {
             criarTabelaHTML();
         }
     });
@@ -342,46 +331,6 @@ function inserirAtualizacao(){
     )
 }
 
-function login() {
-    let bloco_login = document.getElementById("id_bloco_login");
-    let input_usuario = document.getElementById("usuario");
-    let input_senha = document.getElementById("senha");
-    let blocoPesquisa = document.getElementById("id_bloco_pesquisa");
-    let resumo_nps = document.getElementById("resumo_nps");
-    let bloco_principal_menu = document.getElementById("bloco_principal_menu");
-    let resultados = document.getElementById("resultados");
-
-    let u = sessionStorage.getItem("usuario");
-    let s = sessionStorage.getItem("senha");
-
-    if((u == USUARIO) && (s == SENHA)){
-        input_usuario.value =  sessionStorage.getItem("usuario");
-        input_senha.value = sessionStorage.getItem("senha");
-    }
-    
-    if ((SENHA == input_senha.value.toString()) && (USUARIO == input_usuario.value.toString())){
-        bloco_login.style = "display: none;";
-        blocoPesquisa.style = "display: block;";
-        resumo_nps.style = "display: flex;";
-        resultados.style = "display: flex;";
-        bloco_principal_menu.style = "display: flex;";
-
-        sessionStorage.setItem("usuario", USUARIO);
-        sessionStorage.setItem("senha", SENHA);
-        inserirPesquisa();
-        inserirAtualizacao();
-
-        botoesMenu();
-
-    }else {
-       let acesso = document.getElementById("acesso");
-       acesso.style = " display: block;";
-    }
-    
-
-}
-
-
 async function enviarUrlViaPOST(CPF) {
     let cpf = CPF.toString();
     let url = `https://docs.google.com/forms/d/e/1FAIpQLScRmjFnuLLUmPn13VR3Aw9MDDR6psqY05AKNkzYkIpU2PB4ig/formResponse?&submit=Submit?usp=pp_url&entry.1358987799=${cpf}`;
@@ -411,14 +360,14 @@ function inserirPesquisa() {
     let pesquisaCPF = document.getElementById("input_cpf");
     pesquisaBotao.addEventListener("click", function () {
         pesquisar(pesquisaCPF.value);
-        enviarUrlViaPOST(pesquisaCPF.value);
+        //enviarUrlViaPOST(pesquisaCPF.value);
     
     })
 }
 
 
 function botoesMenu(){
-    let extremidade = "/nps/"; // colocar / se for local host e /nps/ se for github
+    let extremidade = "/"; // colocar / se for local host e /nps/ se for github
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
     let caminho_chat = "chat.html";
@@ -450,19 +399,11 @@ function botoesMenu(){
 
 }
 
-
-let botao_logar = document.getElementById("btn_logar");
-
-if (ATIVADO){
-    botao_logar.addEventListener("click",login);
-    let u = sessionStorage.getItem("usuario");
-    let s = sessionStorage.getItem("senha");
-
-    if((u == USUARIO) && (s == SENHA)){
-        login();
-    }
-
-}else{
-    document.getElementById("fora").style.display = "block";
-
+function insirirConteudo(){
+    inserirPesquisa();
+    inserirAtualizacao();
+    botoesMenu();
 }
+
+startSite(ATIVADO);
+

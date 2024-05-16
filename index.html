@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="./imagens/lupa.ico">
+    <link rel="icon" type="image/x-icon" href="./imagens/logo_csu.ico">
     <link rel="stylesheet" href="./mainstyle.css">
     <title>NPS</title>
 
@@ -88,7 +88,7 @@
 
 
         #resultados {
-            display: none;
+            display: flex;
             position: relative;
             margin: 5px;
             width: 99%;
@@ -156,7 +156,7 @@
         }
 
         #resumo_nps {
-            display: none;
+            display: flex;
             flex-wrap: wrap;
             flex-direction: row;
             justify-content: space-between;
@@ -310,101 +310,104 @@
 
 </head>
 <body>
-    <div id="id_bloco_login" class="bloco_login">
-        <input id="usuario" type="text" placeholder="Usuário" required>
-        <input id="senha" type="password" placeholder="Senha"  required>
-        <button id="btn_logar" type="submit">Entrar</button>
-        <p id="acesso">Acesso Negado</p>
-    </div>
-    <div id="fora">
-        <p>Estamos atualizando os dados<br>Volte mais tarde</p>
-    </div>
-
-    <div id="bloco_principal_menu">
-        <div id="bloco_usuario">
-            
-            <div id="bloco_usuario_logo">
-                <img src="imagens/logo_csu.png"/> 
-            </div>
-
-            <div id="bloco_usuario_titulo">
-                <h1>Pesquisa de NPS</h1>
-            </div>
-        
-            <div id="bloco_usuario_menu">
-                <button class="bt_opcoes_usuario" id="pagina_nps">
-                    NPS
-                </button>   
-                <button class="bt_opcoes_usuario" id="pagina_indicadores">
-                    Indicadores
-                </button>   
-                <button class="bt_opcoes_usuario" id="pagina_chat">
-                    CHAT
-                </button>  
-                <button class="bt_opcoes_usuario" id="sair">
-                    Sair
-                </button>
-            </div> 
-
+    <div id="mascara_login">
+        <div id="id_bloco_login" class="bloco_login">
+            <input id="usuario" type="text" placeholder="Usuário" required>
+            <input id="senha" type="password" placeholder="Senha"  required>
+            <button id="btn_logar" type="submit">Entrar</button>
+            <p id="acesso">Acesso Negado</p>
         </div>
-        <div id="id_bloco_pesquisa" > 
-    
-            <h2 class="centrar">Pesquisa de NPS</h2>
-            <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
-
-            <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
-
-            <input class="centrar" type="text" id="input_cpf" name="input_cpf">
-            
-            <button class="centrar" id="pesquisa">
-                Pesquisar
-            </button>
-            <div id="carregando"> 
-                <span class="loader"></span>
-            </div>
-
+        <div id="fora">
+            <p>Estamos atualizando os dados<br>Volte mais tarde</p>
         </div>
-        <div id="resumo_nps">
-            <div id="label_calcular_nps" class="resumo_nps_filhos">
+    </div>
 
-                <p>Calcule o NPS</p>
-                <p>Selecione o Mês</p>
-                <div id="mes_nps">
-                    <select id="select_meses">
-                    </select>
+    <div id="mascara_conteudo">
+        <div id="bloco_principal_menu">
+            <div id="bloco_usuario">
+                
+                <div id="bloco_usuario_logo">
+                    <img src="imagens/logo_csu.png"/> 
                 </div>
+
+                <div id="bloco_usuario_titulo">
+                    <h1>Pesquisa de NPS</h1>
+                </div>
+            
+                <div id="bloco_usuario_menu">
+                    <button class="bt_opcoes_usuario" id="pagina_nps">
+                        NPS
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_indicadores">
+                        Indicadores
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_chat">
+                        CHAT
+                    </button>  
+                    <button class="bt_opcoes_usuario" id="sair">
+                        Sair
+                    </button>
+                </div> 
+
             </div>
+            <div id="id_bloco_pesquisa" > 
 
-            <div class="resumo_nps_filhos">
-                <img class="nps_img" src="./imagens/negativo.png">
-                <p>DETRATORES (0 até 6)</p>
-                <input id="nps_detratores" type="number" min="0" value="0" readonly/>
+                <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
+
+                <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
+
+                <input class="centrar" type="text" id="input_cpf" name="input_cpf">
+                
+                <button class="centrar" id="pesquisa">
+                    Pesquisar
+                </button>
+                <div id="carregando"> 
+                    <span class="loader"></span>
+                </div>
+
             </div>
+            <div id="resumo_nps">
+                <div id="label_calcular_nps" class="resumo_nps_filhos">
 
-            <div class="resumo_nps_filhos">
-                <img class="nps_img" src="./imagens/neutro.png">
-                <p>NEUTROS (7 ou 8)</p>
-                <input id="nps_neutros" type="number" min="0" value="0" readonly/>
-            </div>
+                    <p>Calcule o NPS</p>
+                    <p>Selecione o Mês</p>
+                    <div id="mes_nps">
+                        <select id="select_meses">
+                        </select>
+                    </div>
+                </div>
 
-            <div class="resumo_nps_filhos">
-                <img class="nps_img" src="./imagens/positivo.png">
-                <p>PROMOTORES (9 ou 10)</p>
-                <input id="nps_promotores" type="number" min="0" value="0" readonly/>
-            </div>  
+                <div class="resumo_nps_filhos">
+                    <img class="nps_img" src="./imagens/negativo.png">
+                    <p>DETRATORES (0 até 6)</p>
+                    <input id="nps_detratores" type="number" min="0" value="0" readonly/>
+                </div>
 
-            <div class="resumo_nps_filhos">
-                <img class="nps_img" src="./imagens/nps.png">
-                <p id="nps_resultado_label">NPS</p>
-                <p id="nps_resultado" >---</p>
-            </div>  
+                <div class="resumo_nps_filhos">
+                    <img class="nps_img" src="./imagens/neutro.png">
+                    <p>NEUTROS (7 ou 8)</p>
+                    <input id="nps_neutros" type="number" min="0" value="0" readonly/>
+                </div>
 
-        </div>    
-    </div>   
-    <div id="resultados">
+                <div class="resumo_nps_filhos">
+                    <img class="nps_img" src="./imagens/positivo.png">
+                    <p>PROMOTORES (9 ou 10)</p>
+                    <input id="nps_promotores" type="number" min="0" value="0" readonly/>
+                </div>  
 
+                <div class="resumo_nps_filhos">
+                    <img class="nps_img" src="./imagens/nps.png">
+                    <p id="nps_resultado_label">NPS</p>
+                    <p id="nps_resultado" >---</p>
+                </div>  
+
+            </div>    
+        </div>   
+        <div id="resultados">
+
+        </div>
     </div>
 </body>
-<script src="./mainscript.js">
-</script>
+<script src="./fun_global.js"></script>
+<script src="./mainscript.js"></script>
 </html>
