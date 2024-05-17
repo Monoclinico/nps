@@ -16,16 +16,29 @@ body {
     display: none;
 }
 
+.id_bloco_fundo_login {
+    width: 100%;
+    height: 100%;
+    background-color: #586afe;
+    display: block;
+    position: absolute;
+    background: linear-gradient(
+        90deg, /* Ângulo do gradiente */
+        rgba(128, 0, 128, 0.7),  /* Roxo com transparência */
+        rgba(255, 0, 0, 0.7)    /* Vermelho com transparência */
+      );
+}
+
 .bloco_login {
     display: block;
     position: absolute;
     min-width: 180px;
     margin: 0 auto;
     z-index: 100000;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: rgb(255, 255, 255);
     top: 50%;
     left: 50%;
-    padding: 10px;
+    padding: 50px 20px;
     transform: translate;
     transform: translate(-50%, -50%);
     border: 4px solid #ffffff00;
@@ -148,13 +161,17 @@ body {
 }
 
 .bloco_login input {
-    width: 100%;
+    width: 80%;
     padding: 2px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
+    margin: 30px auto;
+    display: block;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #727272;
+    outline: none;
     box-sizing: border-box;
-    font-size: 1.5em;
+    font-size: 1.3em;
     color: black;
     font-weight: 500;
 }
@@ -166,10 +183,23 @@ body {
 #btn_logar {
     display: block;
     position: relative;
+    width: 130px;
     margin: 0 auto;
+    padding: 10px;
     font-size: 20px;
-
+    border-radius: 20px;
+    border: none;
+    font-size: 1.3em;
+    color: rgb(255, 255, 255);
+    background-color: #35aeff;
+    box-shadow: 2px 2px 2px rgb(71, 71, 71);
 }
+
+#btn_logar:hover {
+    box-shadow: 1px 1px 1px rgb(71, 71, 71);
+    background-color: #1691e4;
+}
+
 
 #acesso {
     color: red;

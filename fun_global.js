@@ -19,7 +19,7 @@ function removerPontosEHifens(texto) {
 }
 
 function inserirBotoesMenu(){
-    let extremidade = "/nps/"; // colocar / se for local host e /nps/ se for github
+    let extremidade = "/"; // colocar / se for local host e /nps/ se for github
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
     let caminho_chat = "chat.html";
@@ -197,3 +197,10 @@ function transformarObjeto(objeto) {
 
     return novoObjeto;
 }
+
+function pegarHorarioAtual() {
+    const agora = new Date();
+    const horas = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    return `${horas}:${minutos}`;
+  }

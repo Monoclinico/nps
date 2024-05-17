@@ -387,7 +387,9 @@ function inserirAtualizacao(){
 
 async function enviarUrlViaPOST(CPF) {
     let cpf = CPF.toString();
-    let url = `https://docs.google.com/forms/d/e/1FAIpQLScRmjFnuLLUmPn13VR3Aw9MDDR6psqY05AKNkzYkIpU2PB4ig/formResponse?&submit=Submit?usp=pp_url&entry.1358987799=${cpf}`;
+    let horario = pegarHorarioAtual();
+
+    let url = `https://docs.google.com/forms/d/e/1FAIpQLScRmjFnuLLUmPn13VR3Aw9MDDR6psqY05AKNkzYkIpU2PB4ig/formResponse?&submit=Submit?usp=pp_url&entry.1358987799=${cpf}&entry.566409605=${horario}`;
     
     try {
       const resposta = await fetch(url, {
@@ -404,6 +406,8 @@ async function enviarUrlViaPOST(CPF) {
       
     } catch (erro) {
 
+    }finally {
+        console.clear();
     }
   }
 
@@ -414,7 +418,7 @@ function inserirPesquisa() {
     let pesquisaCPF = document.getElementById("input_cpf");
     pesquisaBotao.addEventListener("click", function () {
         pesquisar(pesquisaCPF.value);
-        //enviarUrlViaPOST(pesquisaCPF.value);
+        enviarUrlViaPOST(pesquisaCPF.value);
     
     })
 }
