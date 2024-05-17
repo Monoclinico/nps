@@ -8,9 +8,9 @@ let urlmeta = `https://docs.google.com/spreadsheets/d/${spreadsheetID_indicadore
 
 const ATIVADO = true;
 
+let objColunas = {};
+let CPF = "";
 let dadosIndicadores = {};
-let dadosIndicadoresCabecalho = {};
-let dadosParametros = {};
 
 async function obterDados(link){
 
@@ -37,39 +37,38 @@ function pesquisar(pesquisaCPF){
     obterDados(urldados).then(
         value => {
 
-            let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
+            CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
 
             if (validarCPF(CPF)) {
            
                 let tabela = value.table.rows;
 
-                dadosIndicadoresCabecalho = value.table.cols;
-                
+                let dadosIndicadoresCabecalho = value.table.cols;
+
                 let filtro = tabela.map((k) =>{
                     return k['c'];
                 });
                 
+                let listaC = dadosIndicadoresCabecalho.map((coluna) => {
+                    return coluna.label;
+                });
+
+                objColunas = transformarObjeto(criarObjetoDeLista(listaC));
 
                 dadosParametros = filtro[0];
+
+                let iCPF = parseInt(encontrarChavePorValor2(objColunas, "CPF"));
 
                 let filtro2 = filtro.filter((k) =>{
                     let r1 = -1;
                     let r2 = -1;
-                    let indiceCPF = 0;
 
-                    for(let c = 0;c < dadosIndicadoresCabecalho.length; c++) {
-                        if (dadosIndicadoresCabecalho[c]["label"] == "CPF"){
-                            indiceCPF = c;
-                            break;
+                    if(k[iCPF] != null) {
+                        if (k[iCPF].v != null){
+                            r1 = preencherZerosCPF(k[iCPF].v.toString().trim()).search(CPF);
                         }
-                    }
-
-                    if(k[indiceCPF] != null) {
-                        if (k[indiceCPF].v != null){
-                            r1 = preencherZerosCPF(k[indiceCPF].v.toString().trim()).search(CPF.toString().trim())
-                        }
-                        if (k[indiceCPF].f != null) {
-                            r2 = preencherZerosCPF(k[indiceCPF].f.toString().trim()).search(CPF.toString().trim())
+                        if (k[iCPF].f != null) {
+                            r2 = preencherZerosCPF(k[iCPF].f.toString().trim()).search(CPF);
                         }
                     }
                     return ((r1 > -1) ||( r2 > -1) );
@@ -94,47 +93,17 @@ function pesquisar(pesquisaCPF){
     )
 }
 
-function validarNumero(n) {
-    let numberPattern = /^[0-9]+(?:[,\.][0-9]+)?$/;
-    return numberPattern.test(n);
-}
-
-function removerPercentagem(string) {
-    return string.replace(/%/g, '');
-}
-
-function formatarPorcentagem(v1, v2) {
-    let valor1 = v1.toString();
-    let valor2 = v2.toString();
-
-
-
-    if (valor1.includes('%')) {
-        return valor1.replace('%', '');
-    } else if (valor2.includes('%')) {
-        return valor2.replace('%', '');
-    } else {
-        return valor1;
-    }
-}
-
 function criarTabelaHTML() {
 
-    let cabecalhos = [];
-    let dados = dadosIndicadores;
-    let parametros = dadosParametros;
-
     let divResultados = document.getElementById("resultados");
-
     divResultados.textContent = '';
 
-    if ((dados.length > 0) && (dadosIndicadoresCabecalho.length > 0 )){
+    let tamanhoObjeto = Object.keys(objColunas).length;
 
-        for (let x = 0; x < dadosIndicadoresCabecalho.length ;x++){
-            cabecalhos.push(dadosIndicadoresCabecalho[x]["label"].toString());
-        }
+    if ((dadosIndicadores.length > 0) && (tamanhoObjeto > 0 )){
 
-        for (let lin = 0; lin < dados.length; lin++){
+
+        for (let lin = 0; lin < dadosIndicadores.length; lin++){
 
             let linha = document.createElement("div");
             linha.classList.add("resultados_linha");
@@ -146,29 +115,21 @@ function criarTabelaHTML() {
             linha_quebra_2.classList.add("resultados_quebra_linha");
 
             let linha_atual = 1;
-
-            for (let c = 0;c < cabecalhos.length ;c++) {
+           
+            for (const chave in objColunas) {
+               // {6: {t: "TMA (VOZ) (403%)", v: "403"}}
 
                 let valor1 = "";
-                if (dados[lin] != null){
-                    if(dados[lin][c] != null){
-                        let v1 = dados[lin][c].v != null ? dados[lin][c].v : "";
-                        let v2 = dados[lin][c].f != null ? dados[lin][c].f : "";
+                let param1 = objColunas[chave]["v"];
+                let cabec1 = objColunas[chave]["t"];
+                if (dadosIndicadores[lin] != null){
+                    if(dadosIndicadores[lin][chave] != null){
+                        let v1 = dadosIndicadores[lin][chave].v != null ? dadosIndicadores[lin][chave].v : "";
+                        let v2 = dadosIndicadores[lin][chave].f != null ? dadosIndicadores[lin][chave].f : "";
                         valor1 = formatarPorcentagem(v1.toString(), v2.toString());
                     }
                 }
 
-                let param1 = "";
-                if (dadosParametros[c] != null){
-                    let v1 = dadosParametros[c].v != null ? dadosParametros[c].v : "";
-                    let v2 = dadosParametros[c].f != null ? dadosParametros[c].f : "";
-                    param1 = formatarPorcentagem(v1.toString(), v2.toString());
-                }
-                
-
-                let cabec1 = "";
-                cabec1 = cabecalhos[c] != null ? cabecalhos[c] : "";
-                cabec1 = cabec1.toString().trim().toUpperCase();
 
                 let indicador = document.createElement("div");
                 indicador.classList.add("resultados_filhos");
@@ -179,6 +140,7 @@ function criarTabelaHTML() {
                 let p_valor = document.createElement("p");
                 p_valor.classList.add("label_valor");
 
+                p_label.innerHTML = cabec1;
 
                 let e_num = 0.0;
                 let p_num = 0.0;
@@ -193,25 +155,14 @@ function criarTabelaHTML() {
                     p_num = parseFloat(param1);
                 }
 
-                switch (cabec1){
 
-                    case "CPF":
+                switch (true){
 
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
-
+                    case (cabec1.includes("CPF")):
                         p_valor.innerHTML = preencherZerosCPF(valor1.toString().trim());
                         break;
 
-                    case "ABS":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
+                    case (cabec1.includes("ABS")):
     
                         if (vali_num && vali_num_p){
                             if (e_num <= p_num){
@@ -231,13 +182,8 @@ function criarTabelaHTML() {
 
                         break;
 
-                    case "ADERÊNCIA":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num}%)` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
-    
+                    case (cabec1.includes("ADERÊNCIA")):
+
                         if (vali_num && vali_num_p){
                             if (e_num >= p_num){
                                 p_valor.classList.add("dentro_meta");
@@ -256,12 +202,7 @@ function criarTabelaHTML() {
 
                         break;
 
-                    case "QUALIDADE":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num}%)` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
+                    case (cabec1.includes("QUALIDADE")):
 
                         if (vali_num && vali_num_p){
                             if (e_num >= p_num){
@@ -281,12 +222,7 @@ function criarTabelaHTML() {
 
                         break;
                     
-                    case "TMA (VOZ)":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
+                    case (cabec1.includes("TMA (VOZ)")):
 
                         if (vali_num && vali_num_p){
                             if (e_num <= p_num){
@@ -305,12 +241,7 @@ function criarTabelaHTML() {
                         }
 
                         break;
-                    case "TMA (CHAT)":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
+                    case (cabec1.includes("TMA (CHAT)")):
 
                         if (vali_num && vali_num_p){
                             if (e_num <= p_num){
@@ -329,12 +260,7 @@ function criarTabelaHTML() {
                         }
 
                         break;
-                    case "TABULAÇÃO":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num}%)` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
+                    case (cabec1.includes("TABULAÇÃO")):
 
                         if (vali_num && vali_num_p){
                             if (e_num >= p_num){
@@ -354,12 +280,7 @@ function criarTabelaHTML() {
 
                         break;
 
-                    case "NCG":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
+                    case (cabec1.includes("NCG")):
 
                         if (vali_num && vali_num_p){
                             if (e_num <= p_num){
@@ -379,13 +300,8 @@ function criarTabelaHTML() {
 
                         break;
 
-                    case "FCR":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num}%)` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
-
+                    case (cabec1.includes("ACURACIDADE")):
+                    
                         if (vali_num && vali_num_p){
                             if (e_num >= p_num){
                                 p_valor.classList.add("dentro_meta");
@@ -400,37 +316,17 @@ function criarTabelaHTML() {
                             p_valor.innerHTML = `${e_num}%`;
                         }else{
                             p_valor.innerHTML = "" ;
-                        }
-
-                        break;
-
-                    case "MÉDIA":
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
-
-                        if (valor1.toString().trim() != ""){
-                            p_valor.innerHTML = `${e_num}`;
-                        }else{
-                            p_valor.innerHTML = "" ;
-                            p_valor.classList.add("sem_meta");
                         }
 
                         break;
 
                     default:
-                        if (param1.toString().trim() != ""){
-                            p_label.innerHTML = `${cabec1} (${p_num})` ;
-                        }else{
-                            p_label.innerHTML = cabec1 ;
-                        }
-
                         p_valor.innerHTML = `${valor1}`;
+
                 }
 
-                if (cabec1 == "ABS"){
+                
+                if (cabec1.includes("ABS")){
                     linha_atual = 2;
                 }
 
@@ -448,6 +344,7 @@ function criarTabelaHTML() {
             linha.appendChild(linha_quebra_1);
             linha.appendChild(linha_quebra_2);
             divResultados.appendChild(linha);
+            
         }
 
     }else{

@@ -47,6 +47,7 @@ function inserirBotoesMenu(){
     botao_sair.addEventListener("click", function () {
         sessionStorage.clear();
         location.reload();
+
     });
 
 }
@@ -121,6 +122,16 @@ function encontrarChavePorValor(objeto, valor) {
     return null; // Retorna null se o valor não for encontrado em nenhuma chave
 }
 
+function encontrarChavePorValor2(objeto, valor) {
+    //{6: {t: "TMA (VOZ) (403)", v: "403"}}
+    for (const chave in objeto) {
+        if (objeto[chave]["t"].toString().toUpperCase().includes( valor.toString().toUpperCase())) {
+            return chave;
+        }
+    }
+    return null; // Retorna null se o valor não for encontrado em nenhuma chave
+}
+
 function preencherZerosCPF(cpfp) {
     const cpfPadrao = "00000000000";
 
@@ -137,4 +148,52 @@ function preencherZerosCPF(cpfp) {
 
 function limparString(string) {
     return string.replace(/[.\-\s]/g, '');
+}
+
+function validarNumero(n) {
+    let numberPattern = /^[0-9]+(?:[,\.][0-9]+)?$/;
+    return numberPattern.test(n);
+}
+
+function removerPercentagem(string) {
+    return string.replace(/%/g, '');
+}
+
+function formatarPorcentagem(v1, v2) {
+    let valor1 = v1.toString();
+    let valor2 = v2.toString();
+
+
+
+    if (valor1.includes('%')) {
+        return valor1.replace('%', '');
+    } else if (valor2.includes('%')) {
+        return valor2.replace('%', '');
+    } else {
+        return valor1;
+    }
+}
+
+function transformarObjeto(objeto) {
+    const novoObjeto = {};
+    for (const chave in objeto) {
+        let m1 = objeto[chave];
+        m1 = m1.replaceAll(")(", ') (').trim();
+        let l1 =  m1.split(" ");
+
+        let valor = "";
+        for (let x=0 ;x < l1.length ;x++) {
+          let n1 = /\d/.test(l1[x]);  
+          if (n1) {
+            valor = l1[x].replaceAll("(", '').replaceAll(")", '').replaceAll("%", '').trim();
+          }
+        }
+
+        novoObjeto[chave] = {
+            t: m1.toString(),
+            v: valor.toString()
+        };
+    }
+
+    return novoObjeto;
 }

@@ -78,7 +78,7 @@ function pesquisar(pesquisaCPF){
                 automatizarNPS();
 
             }else{
-                resultadoIncorreto("Nenhum NPS foi encontrado");
+                resultadoIncorreto("Nenhum registro foi encontrado");
             }
 
            carregando.style = "display: none;";
@@ -86,7 +86,7 @@ function pesquisar(pesquisaCPF){
         }
     ).catch(
         value => {
-            console.log(value);
+            //console.log(value);
             resultadoIncorreto("Erro Interno");
             carregando.style = "display: none;";
         }
@@ -332,9 +332,9 @@ function criarTabelaHTML() {
 
         tabela.appendChild(tbody);
         divResultados.appendChild(tabela);
-        
+
     }else{
-        resultadoIncorreto("Nenhum NPS foi encontrado");
+        resultadoIncorreto("Nenhum registro foi encontrado");
     }
     
 }
