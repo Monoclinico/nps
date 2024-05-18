@@ -332,6 +332,7 @@ function criarTabelaHTML() {
 
         tabela.appendChild(tbody);
         divResultados.appendChild(tabela);
+        divResultados.style = "display: flex;";
 
     }else{
         resultadoIncorreto("Nenhum registro foi encontrado");

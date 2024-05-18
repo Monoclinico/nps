@@ -344,7 +344,7 @@ function criarTabelaHTML() {
             linha.appendChild(linha_quebra_1);
             linha.appendChild(linha_quebra_2);
             divResultados.appendChild(linha);
-            
+            divResultados.style = "display: flex;";
         }
 
     }else{

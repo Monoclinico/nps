@@ -15,11 +15,12 @@
             flex-wrap: wrap;
             width: 99%;
             margin: 5px;
-            background-color: #ffffff;
+            background-color: #ffffff00;
+            color: white;
             padding: 10px;
-            border: 1px solid rgb(187, 187, 187);
-            border-radius: 0px;
-            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
+            border: none;
+            border-radius: 8px;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
         }
         
         #id_bloco_legenda {
@@ -29,6 +30,7 @@
             min-width: 300px;
             margin: 5px;
             z-index: 100000;
+            font-size: 0.9em;
             background-color: #ffffff;
             padding: 10px;
             border: 1px solid rgb(187, 187, 187);
@@ -36,28 +38,58 @@
             box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
 
         }
-        #id_bloco_legenda ul {
-            margin: 0;
-            padding: 10px 50px;
+
+        .status {
+            position: relative;
+            padding-left: 25px; /* Space for the circle */
+        }
+
+        .status::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
         }
 
 
         #id_bloco_explicacao li {
-            font-size: 1.1em;
+            font-size: 1.0em;
+            color: white;
+            margin: 10px 0px;
+        }
+
+        .bloco_explicacao_destaque {
+            font-weight: 900;
+        }
+
+        .dentro-da-meta::before {
+            background-color: rgb(136 255 55);
+        }
+
+        .fora-da-meta::before {
+            background-color: rgb(255, 67, 67);
+        }
+
+        .sera-lancado::before {
+            background-color: rgb(150, 205, 255);
         }
 
         #resultados {
-            display: flex;
+            display: none;
             position: relative;
             margin: 5px;
             width: 99%;
             z-index: 100000;
             flex-direction: column;
-            background-color: rgb(255, 255, 255);
+            background-color: rgba(255, 255, 255, 0);
             padding: 5px;
-            border: 1px solid rgb(187, 187, 187);
-            border-radius: 0px;
-            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
         }
         .resultados_linha {
             display: flex;
@@ -65,7 +97,8 @@
             flex-direction: row;
             flex-wrap: wrap;
             margin: 10px auto;
-            background-color: #ffffff;
+            border: none;
+            background-color: rgba(255, 255, 255, 0);
             padding: 10px;
     
         }
@@ -78,7 +111,7 @@
             margin: 10px auto;
             background-color: #ffffff;
             padding: 10px;
-            border-radius: 0px;
+            border-radius: 10px;
             border: 1px solid rgb(187, 187, 187);
             box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
         }
@@ -88,7 +121,7 @@
             position: relative;
             margin: 4px 4px;
             flex-direction: column;
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 252, 227);
             border: 0px solid #000000;
             border-radius: 5px;
             padding: 0px;
@@ -98,7 +131,7 @@
             display: block;
             color: black;
             text-align: center;
-            font-size: 1.1em;
+            font-size: 0.9em;
             font-weight: 900;
             margin: 2px;
             padding: 4px;
@@ -108,7 +141,7 @@
             display: block;
             color: black;
             text-align: center;
-            font-size: 1.1em;
+            font-size: 0.9em;
             font-weight: 900;
             margin: 2px 0px 0px 0px ;
             padding: 4px;
@@ -202,6 +235,9 @@
                     <button class="bt_opcoes_usuario" id="pagina_indicadores">
                         Indicadores
                     </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_acuracidade">
+                        Acuracidade
+                    </button>
                     <button class="bt_opcoes_usuario" id="pagina_chat">
                         CHAT
                     </button>  
@@ -229,17 +265,9 @@
             </div>  
             <div id="id_bloco_legenda" > 
                 <p>Legenda</p>
-                <ul>
-                    <li>
-                        <span class="dentro_meta">VERDE</span> -> DENTRO DA META
-                    </li>
-                    <li>
-                        <span class="fora_meta">VERMELHO</span> -> FORA DA META
-                    </li>
-                    <li>  
-                        <span class="sem_meta">AZUL</span> -> SERÁ LANÇADO OU NÃO TEM.
-                    </li>
-                </ul>  
+                <p class="status dentro-da-meta">Dentro da meta</p>
+                <p class="status fora-da-meta">Fora da meta</p>
+                <p class="status sera-lancado">Será Lançado ou não tem</p>
             </div> 
         </div>   
         <div id="resultados">
@@ -248,29 +276,23 @@
         <div id="id_bloco_explicacao" > 
             <ul>
                 <li>
-                    <span style="font-weight: 700;">ABS:</span>
-        Todo o tempo ausente que você tem na operação, seja por falta ou atraso.
+                    <span class="bloco_explicacao_destaque">ABS</span>: Todo o tempo ausente que você tem na operação, seja por falta ou atraso.
         O cálculo é feito pegando o tempo que você tem de escala (06:20), divido pelo tempo que você não esteve aqui, gera assim a porcentagem de ausência.
                 </li>
                 <li>
-                    <span style="font-weight: 700;">Aderência:</span>
-                    Quanto mais próximo você tira a pausa do horário estabelecido, maior a chance de você ter 100% de aderência.
+                    <span class="bloco_explicacao_destaque">Aderência</span>: Quanto mais próximo você tira a pausa do horário estabelecido, maior a chance de você ter 100% de aderência.
                 </li>
                 <li>
-                    <span style="font-weight: 700;">Qualidade:</span>
-                    Suas avaliações e sinalizações das ligações ou chat.
+                    <span class="bloco_explicacao_destaque">Qualidade</span>: Suas avaliações e sinalizações das ligações ou chat.
                 </li>
                 <li>
-                    <span style="font-weight: 700;">TMA:</span>
-                    Tempo média de atendimento, é feito o cálculo através do tempo total que você ficou atendendo divido pela quantidade de ligações.
+                    <span class="bloco_explicacao_destaque">TMA</span>: Tempo média de atendimento, é feito o cálculo através do tempo total que você ficou atendendo divido pela quantidade de ligações.
                 </li>
                 <li>
-                    <span style="font-weight: 700;">Tabulação:</span>
-                    Quantidade de registros feitos conforme quantidade de ligações que você atendeu.
+                    <span class="bloco_explicacao_destaque">Tabulação</span>: Quantidade de registros feitos conforme quantidade de ligações que você atendeu.
                 </li>
                 <li>
-                    <span style="font-weight: 700;">NCG:</span>
-                    Nota 0 na qualidade, conhecido como sinalização grave.
+                    <span class="bloco_explicacao_destaque">NCG</span>: Nota 0 na qualidade, conhecido como sinalização grave.
                 </li>
             </ul>
         </div>  

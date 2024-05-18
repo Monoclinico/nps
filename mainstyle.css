@@ -39,7 +39,7 @@ body {
     display: block;
     text-align: left;
     width: 80%;
-    font-size: 1.4em;
+    font-size: 1.3em;
     color: #35aeff;
     font-weight: 900;
 }
@@ -50,7 +50,7 @@ body {
     margin: 0 auto;
     color: black;
     text-align: center;
-    font-size: 1.0em;
+    font-size: 0.9em;
     font-weight: 900;
 }
 
@@ -96,11 +96,14 @@ body {
     box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
 }
 
+#atualizacao {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
 
 .data_atualizacao {
     color: #0099ff;
     font-weight: 900;
-    font-size: 1.0em;
 }
 
 .bloco_login {
@@ -112,7 +115,7 @@ body {
     background-color: rgb(255, 255, 255);
     top: 50%;
     left: 50%;
-    padding: 50px 20px;
+    padding: 20px 20px;
     transform: translate;
     transform: translate(-50%, -50%);
     border: 4px solid #ffffff00;
@@ -130,7 +133,7 @@ body {
     border: none;
     border-radius: 10px;
     margin: 5px auto;
-    box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
+    box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
 }
 
 #bloco_usuario {
@@ -205,7 +208,7 @@ body {
     height: auto;
     color: #fff;
     border: none;
-    font-size: 1.1em;
+    font-size: 1.0em;
     font-weight: 600;
     transition: all 0.3s ease-in-out;
     z-index: 1;
@@ -234,11 +237,19 @@ body {
 }
 
 #pagina_indicadores {
-    background-color: rgb(250, 197, 53);
+    background-color: #35aeff;
 }
 
 #pagina_indicadores:hover {
-    background-color: rgb(180, 142, 38);
+    background-color: #1691e4;
+}
+
+#pagina_acuracidade {
+    background-color: #35aeff;
+}
+
+#pagina_acuracidade:hover {
+    background-color: #1691e4;
 }
 
 #pagina_chat {
@@ -261,7 +272,7 @@ body {
     border-bottom: 1px solid #727272;
     outline: none;
     box-sizing: border-box;
-    font-size: 1.3em;
+    font-size: 1.0em;
     color: black;
     font-weight: 500;
 }
@@ -279,7 +290,7 @@ body {
     font-size: 20px;
     border-radius: 20px;
     border: none;
-    font-size: 1.3em;
+    font-size: 1.1em;
     font-weight: 600;
     color: rgb(255, 255, 255);
     background-color: #35aeff;
@@ -308,7 +319,7 @@ body {
     height: auto;
     color: #fff;
     border: none;
-    font-size: 1.1em;
+    font-size: 1.0em;
     font-weight: 600;
     z-index: 1;
     overflow: hidden;
