@@ -9,20 +9,6 @@
 
     <style>
 
-        #id_bloco_pesquisa {
-            display: block;
-            position: relative;
-            width: min-content;
-            min-width: 300px;
-            margin: 10px;
-            z-index: 100000;
-            background-color: #ffffff;
-            padding: 10px;
-            border: 1px solid rgb(187, 187, 187);
-            border-radius: 8px;
-            box-shadow: 1px 2px 5px 1px rgb(64 60 67 / 16%);
-        }
-
         #id_bloco_explicacao {
             display: block;
             flex-direction: row;
@@ -41,7 +27,7 @@
             position: relative;
             width: min-content;
             min-width: 300px;
-            margin: 10px;
+            margin: 5px;
             z-index: 100000;
             background-color: #ffffff;
             padding: 10px;
@@ -58,66 +44,6 @@
 
         #id_bloco_explicacao li {
             font-size: 1.1em;
-        }
-        #pesquisa {
-            position: relative;
-            display: block;
-            background-color: rgb(67, 167, 0);
-            border-radius: 5px;
-            box-shadow: rgba(149, 149, 149, 0.527) 0px 0px 2px 2px;
-            padding: 10px;
-            margin: 10px auto;
-            background-repeat: no-repeat;
-            cursor: pointer;
-            box-sizing: border-box;
-            width: auto;
-            height: auto;
-            color: #fff;
-            border: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
-            z-index: 1;
-            overflow: hidden;
-        }
-        
-        #pesquisa:hover {
-            background-color: rgb(37, 90, 1);
-        }
-
-        #input_cpf {
-            width: 150px;
-            height: 30px;
-            display: block;
-            margin: 5px auto;
-            border-radius: 5px;
-            border: 2px solid #323232;
-            background-color: #fff;
-            box-shadow: rgba(149, 149, 149, 0.527) 0px 0px 2px 2px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #323232;
-            padding: 5px 5px;
-            outline: none;
-            }
-
-        #input_cpf::placeholder {
-            color: #666;
-            opacity: 0.8;
-            }
-
-        #input_cpf:focus {
-            border: 2px solid #2d8cf0;
-            }
-
-        #label_input_cpf {
-            display: block;
-            position: relative;
-            margin: 0 auto;
-            color: black;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: 900;
         }
 
         #resultados {
@@ -201,14 +127,6 @@
             background-color: rgb(150, 205, 255);
         }
 
-
-        .data_atualizacao {
-            color: #011469;
-            font-weight: 900;
-            font-size: 1.1em;
-        }
-
-
         #carregando {
             display: none;
             padding: 1px 20px;
@@ -254,6 +172,7 @@
     <div id="mascara_login">
         <div class="id_bloco_fundo_login"></div>
             <div id="id_bloco_login" class="bloco_login">
+                <p id="id_label_login">Login</p>
                 <input id="usuario" type="text" placeholder="Usuário" required>
                 <input id="senha" type="password" placeholder="Senha"  required>
                 <button id="btn_logar" type="submit">Entrar</button>
@@ -269,7 +188,7 @@
             <div id="bloco_usuario">
                 
                 <div id="bloco_usuario_logo">
-                    <img src="imagens/logo_csu.png"/> 
+                    <img src="./imagens/csu-digital.svg"/> 
                 </div>
 
                 <div id="bloco_usuario_titulo">
@@ -298,7 +217,7 @@
 
                 <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
 
-                <input class="centrar" type="text" id="input_cpf" name="input_cpf">
+                <input class="centrar" type="text" id="input_cpf" name="input_cpf" placeholder="Seu CPF...">
                 
                 <button class="centrar" id="pesquisa">
                     Pesquisar
@@ -337,7 +256,7 @@
                     <span style="font-weight: 700;">Aderência:</span>
                     Quanto mais próximo você tira a pausa do horário estabelecido, maior a chance de você ter 100% de aderência.
                 </li>
-                <dli>
+                <li>
                     <span style="font-weight: 700;">Qualidade:</span>
                     Suas avaliações e sinalizações das ligações ou chat.
                 </li>
