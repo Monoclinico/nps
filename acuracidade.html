@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./imagens/logo_csu.ico">
+    <link rel="stylesheet" href="./mainstyle.css">
+    <title>Acuracidade</title>
+
+    <style>
+
+        #resultados {
+            display: none;
+            position: relative;
+            margin: 5px;
+            width: 99%;
+            z-index: 100000;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0);
+            padding: 5px;
+            border: none;
+            border-radius: 0px;
+            cursor: grab;
+            overflow-x: scroll;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
+            justify-content: center; 
+            align-items: center; 
+        }
+        #resultados:active {
+            cursor: grabbing; /* Altera o cursor para a mãozinha fechada quando a div é clicada */
+        }
+
+        #tabela {
+            border: none;
+            background-color: white;
+            border-collapse: collapse;
+            border-spacing: 4px;
+            display: block;
+            max-width: 100%;
+        }
+
+        #tabela thead tr th {
+            background-color: #ffabe4;
+            border-radius: 0px;
+            border-right: 2px solid rgb(133, 133, 133);
+            border-left: 2px solid rgb(133, 133, 133);
+            border-top: 2px solid rgb(5, 5, 5);
+            border-bottom: 2px solid rgb(0, 0, 0);
+            color: black;
+            text-align: center;
+            font-weight: 900;
+            font-size: 0.8em;
+            padding: 2px 5px;
+            
+        }
+        #tabela thead  {
+            margin-bottom: 50px;
+            border-spacing: 50px;
+        }
+
+        #tabela tbody tr td {
+            background-color: #ffffff;
+            border-right: 2px solid rgb(133, 133, 133);
+            border-left: 2px solid rgb(133, 133, 133);
+            border-top: 2px solid rgb(0, 0, 0);
+            border-bottom: 2px solid rgb(0, 0, 0);
+            border-radius: 0px;
+            color: black;
+            font-weight: 600;
+            font-size: 0.8em;
+            padding: 2px 5px;
+        }
+
+        #carregando {
+            display: none;
+            padding: 1px 20px;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .nota_boa {
+            background-color: #7bff7b !important;
+            font-size: 1.0em !important;
+            font-weight: 800 !important;
+            text-align: center;
+        }
+
+        .nota_neutra {
+            background-color: #fffc75 !important;
+            font-size: 1.0em !important;
+            font-weight: 800 !important;
+            text-align: center;
+        }
+
+        .nota_ruim {
+            background-color: #fc7979 !important;
+            font-size: 1.0em !important;
+            font-weight: 800 !important;
+            text-align: center;
+        }
+
+        .loader {
+            margin: 0 auto;
+            width: 48px;
+            height: 48px;
+            display: inline-block;
+            position: relative;
+            border: 3px solid;
+            border-color:#ff7ad4 #0000 #fff #0000;
+            border-radius: 50%;
+            box-sizing: border-box;
+            animation: 1.5s rotate linear infinite;
+        }
+        .loader:before , .loader:after{
+            content: '';
+            top: 0;
+            left: 0;
+            position: absolute;
+            border: 10px solid transparent;
+            border-bottom-color:#fff;
+            transform: translate(-10px, 19px) rotate(-35deg);
+        }
+        .loader:after {
+            border-color: #ff7ad4 #0000 #0000 #0000 ;
+            transform: translate(32px, 3px) rotate(-35deg);
+        }
+        @keyframes rotate {
+            100%{    transform: rotate(360deg)}
+        }
+        
+
+    </style>
+
+</head>
+<body>
+    <div id="mascara_login">
+        <div class="id_bloco_fundo_login">
+            <div id="id_bloco_login" class="bloco_login">
+                <p id="id_label_login">Login</p>
+                <input id="usuario" type="text" placeholder="Usuário" required>
+                <input id="senha" type="password" placeholder="Senha"  required>
+                <button id="btn_logar" type="submit">Entrar</button>
+                <p id="acesso">Acesso Negado</p>
+            </div>
+        </div>
+        <div id="fora">
+            <p>Estamos atualizando os dados<br>Volte mais tarde</p>
+        </div>
+    </div>
+
+    <div id="mascara_conteudo">
+        <div id="bloco_principal_menu">
+            <div id="bloco_usuario">
+                
+                <div id="bloco_usuario_logo">
+                    <img src="./imagens/csu-digital.svg"/> 
+                </div>
+
+                <div id="bloco_usuario_titulo">
+                    <h1>Pesquisa de Acuracidade</h1>
+                </div>
+            
+                <div id="bloco_usuario_menu">
+                    <button class="bt_opcoes_usuario" id="pagina_nps">
+                        NPS
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_indicadores">
+                        Indicadores
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_acuracidade">
+                        Acuracidade
+                    </button>
+                    <button class="bt_opcoes_usuario" id="pagina_chat">
+                        CHAT
+                    </button>  
+                    <button class="bt_opcoes_usuario" id="sair">
+                        Sair
+                    </button>
+                </div> 
+
+            </div>
+            <div id="id_bloco_pesquisa" > 
+
+                <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
+
+                <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
+
+                <input class="centrar" type="text" id="input_cpf" name="input_cpf" placeholder="Seu CPF...">
+                
+                <button class="centrar" id="pesquisa">
+                    Pesquisar
+                </button>
+                <div id="carregando"> 
+                    <span class="loader"></span>
+                </div>
+
+            </div>  
+        </div>   
+        <div id="resultados">
+        </div>
+    </div>
+</body>
+<script src="./fun_global.js"></script>
+<script src="./mainscript_acurac.js"></script>
+<script>
+    const resultadosDiv = document.getElementById('resultados');
+    
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;
+
+    resultadosDiv.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        resultadosDiv.classList.add('active');
+        startX = e.pageX - resultadosDiv.offsetLeft;
+        startY = e.pageY - resultadosDiv.offsetTop;
+        scrollLeft = resultadosDiv.scrollLeft;
+        scrollTop = resultadosDiv.scrollTop;
+    });
+
+    resultadosDiv.addEventListener('mouseleave', () => {
+        isDragging = false;
+        resultadosDiv.classList.remove('active');
+    });
+
+    resultadosDiv.addEventListener('mouseup', () => {
+        isDragging = false;
+        resultadosDiv.classList.remove('active');
+    });
+
+    resultadosDiv.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - resultadosDiv.offsetLeft;
+        const y = e.pageY - resultadosDiv.offsetTop;
+        const walkX = (x - startX) * 1.5; // Ajuste a sensibilidade do scroll
+        const walkY = (y - startY) * 1.5; // Ajuste a sensibilidade do scroll
+        resultadosDiv.scrollLeft = scrollLeft - walkX;
+        resultadosDiv.scrollTop = scrollTop - walkY;
+    });
+</script>
+</html>

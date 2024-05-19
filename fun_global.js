@@ -9,6 +9,17 @@ function validarCPF(cpf) {
     return false
 }
 
+function validarNome(nomes) {
+    let teste = false;
+    
+    for (const v in nomes){
+        if (nomes[v] != ""){
+            teste = true;
+        }
+    }
+    return teste;
+}
+
 function removerPontosEHifens(texto) {
     if (texto != null ){
         let t = texto.toString();
@@ -22,6 +33,7 @@ function inserirBotoesMenu(){
     let extremidade = "/"; // colocar / se for local host e /nps/ se for github
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
+    let caminho_acuracidade = "acuracidade.html";
     let caminho_chat = "chat.html";
 
     let urlBase = `http://${window.location.hostname}:${window.location.port}${extremidade}`;
@@ -29,6 +41,7 @@ function inserirBotoesMenu(){
     let botao_sair = document.getElementById("sair");
     let botao_nps = document.getElementById("pagina_nps");
     let botao_indicadores = document.getElementById("pagina_indicadores");
+    let botao_acuracidade = document.getElementById("pagina_acuracidade");
     let botao_chat = document.getElementById("pagina_chat");
 
     botao_nps.addEventListener("click", function () {
@@ -37,6 +50,10 @@ function inserirBotoesMenu(){
     });
     botao_indicadores.addEventListener("click", function () {
         let url = `${urlBase}${caminho_indicadores}`; 
+        window.open(url.toString(), "_self");
+    });
+    botao_acuracidade.addEventListener("click", function () {
+        let url = `${urlBase}${caminho_acuracidade}`; 
         window.open(url.toString(), "_self");
     });
     botao_chat.addEventListener("click", function () {

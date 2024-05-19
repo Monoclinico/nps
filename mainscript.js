@@ -351,9 +351,10 @@ function resultadoIncorreto(mensagem){
 
 
     frase.innerHTML = mensagem.toString();
-    frase.style = "text-align: center;font-size: 1.3em;color: brown;font-weight: 900;";
+    frase.classList.add("mensagem_erro");
     divResultados.textContent = '';
     divResultados.appendChild(frase);
+    divResultados.style = "display: flex;";
 
     nps_detratores.value = 0;
     nps_neutros.value = 0; 

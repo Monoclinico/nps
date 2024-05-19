@@ -363,3 +363,11 @@ body {
     display: block;
     margin: 5px 5px;
 }
+
+
+.mensagem_erro {
+    text-align: center;
+    font-size: 1.3em;
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+}
