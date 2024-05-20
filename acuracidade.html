@@ -40,7 +40,6 @@
         }
 
         #tabela thead tr th {
-            background-color: #ffabe4;
             border-radius: 0px;
             border-right: 2px solid rgb(133, 133, 133);
             border-left: 2px solid rgb(133, 133, 133);
@@ -51,6 +50,7 @@
             font-weight: 900;
             font-size: 0.8em;
             padding: 2px 5px;
+            background-color: #ffd746;
             
         }
         #tabela thead  {
@@ -181,8 +181,6 @@
             </div>
             <div id="id_bloco_pesquisa" > 
 
-                <p class="centrar" id="atualizacao" >Base de dados:<br> <span id="data_atualizacao_inicio" class="data_atualizacao">---</span> até <span id="data_atualizacao_fim" class="data_atualizacao">---</span></p>
-
                 <label id="label_input_cpf" for="input_cpf">Pesquisar com CPF do operador (atendente):</label>
 
                 <input class="centrar" type="text" id="input_cpf" name="input_cpf" placeholder="Seu CPF...">
@@ -202,40 +200,4 @@
 </body>
 <script src="./fun_global.js"></script>
 <script src="./mainscript_acurac.js"></script>
-<script>
-    const resultadosDiv = document.getElementById('resultados');
-    
-    let isDragging = false;
-    let startX, startY, scrollLeft, scrollTop;
-
-    resultadosDiv.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        resultadosDiv.classList.add('active');
-        startX = e.pageX - resultadosDiv.offsetLeft;
-        startY = e.pageY - resultadosDiv.offsetTop;
-        scrollLeft = resultadosDiv.scrollLeft;
-        scrollTop = resultadosDiv.scrollTop;
-    });
-
-    resultadosDiv.addEventListener('mouseleave', () => {
-        isDragging = false;
-        resultadosDiv.classList.remove('active');
-    });
-
-    resultadosDiv.addEventListener('mouseup', () => {
-        isDragging = false;
-        resultadosDiv.classList.remove('active');
-    });
-
-    resultadosDiv.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - resultadosDiv.offsetLeft;
-        const y = e.pageY - resultadosDiv.offsetTop;
-        const walkX = (x - startX) * 1.5; // Ajuste a sensibilidade do scroll
-        const walkY = (y - startY) * 1.5; // Ajuste a sensibilidade do scroll
-        resultadosDiv.scrollLeft = scrollLeft - walkX;
-        resultadosDiv.scrollTop = scrollTop - walkY;
-    });
-</script>
 </html>

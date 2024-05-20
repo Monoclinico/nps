@@ -98,7 +98,7 @@ function criarTabelaHTML() {
     let divResultados = document.getElementById("resultados");
     divResultados.textContent = '';
 
-    let tamanhoObjeto = Object.keys(objColunas).length;
+    let tamanhoObjeto = parseInt(Object.keys(objColunas).length);
 
     if ((dadosIndicadores.length > 0) && (tamanhoObjeto > 0 )){
 

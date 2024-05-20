@@ -63,8 +63,9 @@ function inserirBotoesMenu(){
 
     botao_sair.addEventListener("click", function () {
         sessionStorage.clear();
+        startSite(true);
         location.reload();
-
+        console.clear();
     });
 
 }
@@ -81,8 +82,8 @@ function login() {
     let s = sessionStorage.getItem("senha");
 
     if((u == USUARIO) && (s == SENHA)){
-        input_usuario.value =  sessionStorage.getItem("usuario");
-        input_senha.value = sessionStorage.getItem("senha");
+        input_usuario.value =  u;
+        input_senha.value =  s;
     }
     
     if ((SENHA == input_senha.value.toString()) && (USUARIO == input_usuario.value.toString())){
@@ -114,7 +115,7 @@ function startSite(estado){
         if((u == USUARIO) && (s == SENHA)){
             login();
         }
-
+        let x = setTimeout(function () { console.clear();}, 3000);
     }else{
         document.getElementById("fora").style.display = "block";
 
@@ -152,7 +153,7 @@ function encontrarChavePorValor2(objeto, valor) {
 function preencherZerosCPF(cpfp) {
     const cpfPadrao = "00000000000";
 
-    let cpf = limparString(cpfp.toString());
+    let cpf = limparString(cpfp.toString().trim());
 
     if (cpf.length < 11) {
         const zerosFaltantes = 11 - cpf.length;

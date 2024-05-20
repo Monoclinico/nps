@@ -6,18 +6,13 @@ const urlNomeCPF = `https://docs.google.com/spreadsheets/d/${nomecpfID}/gviz/tq?
 const spreadsheetID = '1pORUAqUrp-8Kj6k1-C8u2KdOCIZ5LN9NsqyjaC3EZiI';
 const urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=1914081637`;
 
-const urlmeta = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=131297266`;
-
-
 const ATIVADO = true;
 
-let dadosNPS = {};
+let dadosAcura = {};
 
 let objColunas = {};
 
 let dadosCPF = {};
-
-let CPF = "";
 
 async function obterDados(link){
 
@@ -44,7 +39,7 @@ function pesquisarNome(pesquisaCPF){
     obterDados(urlNomeCPF).then(
         value => {
 
-            CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
+            let CPF = removerPontosEHifens(pesquisaCPF.toString().toLowerCase().trim());
             
             if (validarCPF(CPF)) {
 
@@ -59,26 +54,27 @@ function pesquisarNome(pesquisaCPF){
                     return coluna.label;
                 });
 
-                objColunas = criarObjetoDeLista(listaC);
+                let objColunas1 = criarObjetoDeLista(listaC);
 
-                let iCPF = parseInt(encontrarChavePorValor(objColunas, "CPF"));
-                let iNome1 = parseInt(encontrarChavePorValor(objColunas, "NOME1"));
-                let iNome2 = parseInt(encontrarChavePorValor(objColunas, "NOME2"));
+                let iCPF = parseInt(encontrarChavePorValor(objColunas1, "CPF"));
+                let iNome1 = parseInt(encontrarChavePorValor(objColunas1, "NOME1"));
+                let iNome2 = parseInt(encontrarChavePorValor(objColunas1, "NOME2"));
 
                 let filtro2 = filtro.filter((k) =>{
-                    let r1 = -1;
-                    let r2 = -1;
+                    let r1 = false;
+                    let r2 = false;
                     if(k[iCPF] != null) {
                         if (k[iCPF].v != null){
-                            r1 = preencherZerosCPF(k[iCPF].v.toString().trim()).search(CPF);
+                            r1 = preencherZerosCPF(k[iCPF].v.toString()).includes(CPF);
                         }
-                        if(k[iCPF].f != null) {
-                            r2 = preencherZerosCPF(k[iCPF].f.toString().trim()).search(CPF);
+                        if (k[iCPF].f != null) {
+                            r2 = preencherZerosCPF(k[iCPF].f.toString()).includes(CPF);
                         }
 
                     }
-                    return ((r1 > -1) ||( r2 > -1) );
+                    return (r1 || r2);
                 });
+
 
                 let nome1 = "";
                 let nome2 = "";
@@ -86,12 +82,12 @@ function pesquisarNome(pesquisaCPF){
                     for (const valor of filtro2) {
                         if (valor[iNome1] != null){
                             if (valor[iNome1].v !=null) {
-                                nome1 = valor[iNome1].v.toString().trim();
+                                nome1 = valor[iNome1].v.toString().trim().toUpperCase();
                             }
                         }
                         if (valor[iNome2] != null){
                             if (valor[iNome2].v !=null) {
-                                nome2 = valor[iNome2].v.toString().trim();
+                                nome2 = valor[iNome2].v.toString().trim().toUpperCase();
                             }
                         }
                     }
@@ -101,14 +97,11 @@ function pesquisarNome(pesquisaCPF){
                     n1: nome1, 
                     n2: nome2
                 }
-             
                 pesquisar(dadosCPF);
 
             }else{
                 resultadoIncorreto("Nenhum registro foi encontrado");
             }
-
-           carregando.style = "display: none;";
             
         }
     ).catch(
@@ -141,40 +134,39 @@ function pesquisar(dadosNomes){
                     return coluna.label;
                 });
 
-                objColunas = criarObjetoDeLista(listaC);
+                objColunas = criarObjetoDeLista(listaC);;
+
                 let iProprietario = parseInt(encontrarChavePorValor(objColunas, "PROPRIETÁRIO"));
-                console.log(iProprietario );
                
                 let filtro2 = filtro.filter((k) =>{
-                    let r1 = -1;
-                    let r2 = -1;
-                    let r3 = -1;
-                    let r4 = -1;
+                    let r1 = false;
+                    let r2 = false;
+                    let r3 = false;
+                    let r4 = false;
   
                     if (k[iProprietario ] != null) {
                         if (k[iProprietario].v != null) {
                             if (dadosNomes["n1"].length > 0){
-                                r1 = k[iProprietario].v.toString().trim().toUpperCase().search(dadosNomes["n1"].toUpperCase());
+                                r1 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n1"]);
                             }
                             if (dadosNomes["n2"].length > 0){
-                                r2 = k[iProprietario].v.toString().trim().toUpperCase().search(dadosNomes["n2"].toUpperCase());
+                                r2 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n2"]);
                             }
                         }
                         if (k[iProprietario].f != null) {
                             if (dadosNomes["n1"].length > 0){
-                                r3 = k[iProprietario].f.toString().trim().toUpperCase().search(dadosNomes["n1"].toUpperCase());
+                                r3 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n1"]);
                             }
                             if (dadosNomes["n2"].length > 0){
-                                r4 = k[iProprietario].f.toString().trim().toUpperCase().search(dadosNomes["n2"].toUpperCase());
+                                r4 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n2"]);
                             }
                         }
 
                     }
-                    return ((r1 > -1) ||( r2 > -1) || ( r3 > -1) || ( r4 > -1));
+                    return (r1 || r2 || r3 || r4);
                 });
 
-                console.log(filtro2);
-                dadosNPS = filtro2;
+                dadosAcura = filtro2;
                 criarTabelaHTML();
                 
             }else{
@@ -186,38 +178,16 @@ function pesquisar(dadosNomes){
         }
     ).catch(
         value => {
-            console.log(value);
+            //console.log(value);
             resultadoIncorreto("Erro Interno");
             carregando.style = "display: none;";
         }
     )
 }
 
-
-function obterData(data) {
-    let d = data.toString().trim().split(/[\s/,:]+/);
-    let mes = "";
-    let ano = "";
-    if (d[1].length > 2){
-        mes = d[1].substring(d[1].length - 2);
-    }else{
-        mes = (d[1] ?? "").padStart(2, "0");
-    }
-
-    if (d[2].length > 2){
-        ano = d[2].substring(d[2].length - 2);
-    }else{
-        ano = (d[2] ?? "").padStart(2, "0");
-    }
-
-    return `${mes}/${ano}`;
-}
-
 function criarTabelaHTML() {
 
     let iData = parseInt(encontrarChavePorValor(objColunas, "CRIAÇÃO"));
-    let iCPF = parseInt(encontrarChavePorValor(objColunas, "CPF"));
-    let iNota = parseInt(encontrarChavePorValor(objColunas, "Nota"));
 
     let divResultados = document.getElementById("resultados");
     divResultados.textContent = '';
@@ -228,40 +198,47 @@ function criarTabelaHTML() {
 
 
     for (const chave in objColunas) {
-        let th = document.createElement("th");
-        th.textContent = objColunas[chave];
-        trCabecalho.appendChild(th);
+        if (objColunas[chave] != ""){
+            let th = document.createElement("th");
+            th.textContent = objColunas[chave];
+            trCabecalho.appendChild(th);
+        }
     }
 
     thead.appendChild(trCabecalho);
 
-    if (dadosNPS.length > 0){
+    if (dadosAcura.length > 0){
        
         let tabela = document.createElement("table");
         tabela.setAttribute("id","tabela");
 
         tabela.appendChild(thead);
         
-        for (let y = 0; y < dadosNPS.length;y++) {
+        let keys = Object.keys(objColunas);
+        
+        for (let y = 0; y < dadosAcura.length;y++) {
 
-                let linhaTabela = tbody.insertRow();
-                for (let x = 0; x < dadosNPS[y].length;x++) {
-                   
+            let linhaTabela = tbody.insertRow();
+
+            for (let x = 0; x < keys.length; x++) {
+                
+                if(objColunas[keys[x]] != ""){
+
                     var celulaTabela = linhaTabela.insertCell();
                     let valor;
                     if (x == iData){
 
-                        if(dadosNPS[y][x] == null ) {
+                        if(dadosAcura[y][x] == null ) {
                             valor = "";
                         }else{
-                            valor = dadosNPS[y][x].f != null ? dadosNPS[y][x].f : "";
+                            valor = dadosAcura[y][x].f != null ? dadosAcura[y][x].f : "";
                         }
 
                     }else{
-                        if(dadosNPS[y][x] == null ) {
+                        if(dadosAcura[y][x] == null ) {
                             valor = "";
                         }else{
-                            valor = dadosNPS[y][x].v != null ? dadosNPS[y][x].v : "";
+                            valor = dadosAcura[y][x].v != null ? dadosAcura[y][x].v : "";
                         }
                     }
 
@@ -274,8 +251,8 @@ function criarTabelaHTML() {
 
                     celulaTabela.textContent = valor;
 
-                    
                 }
+            }
 
         }
 
@@ -303,26 +280,41 @@ function resultadoIncorreto(mensagem){
 
 }
 
-function inserirAtualizacao(){
-    let data_inicio = document.getElementById("data_atualizacao_inicio");
+function moverResultado(){
+    const resultadosDiv = document.getElementById('resultados');
+    
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;
 
-    let data_fim = document.getElementById("data_atualizacao_fim");
+    resultadosDiv.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        resultadosDiv.classList.add('active');
+        startX = e.pageX - resultadosDiv.offsetLeft;
+        startY = e.pageY - resultadosDiv.offsetTop;
+        scrollLeft = resultadosDiv.scrollLeft;
+        scrollTop = resultadosDiv.scrollTop;
+    });
 
-    obterDados(urlmeta).then(
-        value => {
-            let tabela = value.table.rows;
-         
-            data_inicio.innerHTML = (tabela['1']['c'][0].v);
-            data_fim.innerHTML = (tabela['1']['c'][1].v);
-            
-        }
-    ).catch(
-        value => {
-           
-            data_inicio.innerHTML = "---";
-            data_fim.innerHTML = "---";
-        }
-    )
+    resultadosDiv.addEventListener('mouseleave', () => {
+        isDragging = false;
+        resultadosDiv.classList.remove('active');
+    });
+
+    resultadosDiv.addEventListener('mouseup', () => {
+        isDragging = false;
+        resultadosDiv.classList.remove('active');
+    });
+
+    resultadosDiv.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - resultadosDiv.offsetLeft;
+        const y = e.pageY - resultadosDiv.offsetTop;
+        const walkX = (x - startX) * 1.5; // Ajuste a sensibilidade do scroll
+        const walkY = (y - startY) * 1.5; // Ajuste a sensibilidade do scroll
+        resultadosDiv.scrollLeft = scrollLeft - walkX;
+        resultadosDiv.scrollTop = scrollTop - walkY;
+    });
 }
 
 
@@ -333,14 +325,13 @@ function inserirPesquisa() {
     let pesquisaCPF = document.getElementById("input_cpf");
     pesquisaBotao.addEventListener("click", function () {
         pesquisarNome(pesquisaCPF.value);
-       
     })
 }
 
 function insirirConteudo(){
     inserirPesquisa();
-    inserirAtualizacao();
     inserirBotoesMenu();
+    moverResultado();
 }
 
 startSite(ATIVADO);
