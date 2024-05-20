@@ -101,6 +101,7 @@ function pesquisarNome(pesquisaCPF){
 
             }else{
                 resultadoIncorreto("Nenhum registro foi encontrado");
+                carregando.style = "display: none;";
             }
             
         }

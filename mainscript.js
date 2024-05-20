@@ -79,6 +79,7 @@ function pesquisar(pesquisaCPF){
 
             }else{
                 resultadoIncorreto("Nenhum registro foi encontrado");
+                carregando.style = "display: none;";
             }
 
            carregando.style = "display: none;";
