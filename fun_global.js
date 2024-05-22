@@ -222,3 +222,14 @@ function pegarHorarioAtual() {
     const minutos = agora.getMinutes().toString().padStart(2, '0');
     return `${horas}:${minutos}`;
   }
+
+function hasNonEmptyLabel(obj) {
+    for (let key in obj) {
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+            if (obj[key].label !== '') {
+                return true;
+            }
+        }
+    }
+    return false;
+}

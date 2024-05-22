@@ -4,7 +4,7 @@ const nomecpfID = "14VokMI9naR-pcZZMVkNyOhLhS4LQW6JyvdhnbaHApEs";
 const urlNomeCPF = `https://docs.google.com/spreadsheets/d/${nomecpfID}/gviz/tq?tqx=out:json&tq&gid=1925747377`;
 
 const spreadsheetID = '1pORUAqUrp-8Kj6k1-C8u2KdOCIZ5LN9NsqyjaC3EZiI';
-const urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=1914081637`;
+const urldados = `https://docs.google.com/spreadsheets/d/${spreadsheetID}/gviz/tq?tqx=out:json&tq&gid=472994641`;
 
 const ATIVADO = true;
 
@@ -125,19 +125,33 @@ function pesquisar(dadosNomes){
             if (validarNome(dadosNomes)) {
 
                 let tabela = value.table.rows;
+
                 let colunas1 = value.table.cols;
+
 
                 let filtro = tabela.map((k) =>{
                     return k['c'];
                 });
 
-                let listaC = colunas1.map((coluna) => {
-                    return coluna.label;
-                });
+                let listaC = [];
 
-                objColunas = criarObjetoDeLista(listaC);;
+                if (hasNonEmptyLabel(colunas1)){
+                    listaC = colunas1.map((coluna) => {
+                        return coluna.label;
+                    });
+                }else{
+                    listaC = filtro["0"].map((coluna) => {
+                        if (coluna != null){
+                            return coluna.v != null ? coluna.v: "";
+                        }
+                        return "";
+                    });
+                    filtro.shift();
+                }
 
-                let iProprietario = parseInt(encontrarChavePorValor(objColunas, "PROPRIETÁRIO"));
+                objColunas = criarObjetoDeLista(listaC);
+
+                let iProprietario = parseInt(encontrarChavePorValor(objColunas, "ATENDENTE"));
                
                 let filtro2 = filtro.filter((k) =>{
                     let r1 = false;
