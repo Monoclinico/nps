@@ -50,10 +50,11 @@ function pesquisarNome(pesquisaCPF){
                     return k['c'];
                 });
 
+                
                 let listaC = colunas1.map((coluna) => {
                     return coluna.label;
                 });
-
+                
                 let objColunas1 = criarObjetoDeLista(listaC);
 
                 let iCPF = parseInt(encontrarChavePorValor(objColunas1, "CPF"));
@@ -74,7 +75,7 @@ function pesquisarNome(pesquisaCPF){
                     }
                     return (r1 || r2);
                 });
-
+                
 
                 let nome1 = "";
                 let nome2 = "";
@@ -97,6 +98,7 @@ function pesquisarNome(pesquisaCPF){
                     n1: nome1, 
                     n2: nome2
                 }
+                
                 pesquisar(dadosCPF);
 
             }else{
@@ -128,7 +130,6 @@ function pesquisar(dadosNomes){
 
                 let colunas1 = value.table.cols;
 
-
                 let filtro = tabela.map((k) =>{
                     return k['c'];
                 });
@@ -151,7 +152,8 @@ function pesquisar(dadosNomes){
 
                 objColunas = criarObjetoDeLista(listaC);
 
-                let iProprietario = parseInt(encontrarChavePorValor(objColunas, "ATENDENTE"));
+
+                let iProprietario = parseInt(encontrarChavePorValor(objColunas, "AGENTE"));
                
                 let filtro2 = filtro.filter((k) =>{
                     let r1 = false;
@@ -202,7 +204,7 @@ function pesquisar(dadosNomes){
 
 function criarTabelaHTML() {
 
-    let iData = parseInt(encontrarChavePorValor(objColunas, "CRIAÇÃO"));
+    let iData = parseInt(encontrarChavePorValor(objColunas, "DATA"));
 
     let divResultados = document.getElementById("resultados");
     divResultados.textContent = '';

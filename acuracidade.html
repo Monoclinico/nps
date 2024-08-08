@@ -20,7 +20,6 @@
             padding: 5px;
             border: none;
             border-radius: 0px;
-            cursor: grab;
             overflow-x: scroll;
             box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
             justify-content: center; 
@@ -97,6 +96,34 @@
             font-size: 1.0em !important;
             font-weight: 800 !important;
             text-align: center;
+        }
+
+        #id_bloco_explicacao {
+            display: block;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 99%;
+            margin: 5px;
+            background-color: #ffffff00;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
+        }
+
+        #id_bloco_explicacao li {
+            font-size: 1.0em;
+            color: white;
+            margin: 10px 0px;
+            font-weight: 900;
+        }
+
+        #id_bloco_explicacao p {
+            font-size: 1.0em;
+            color: white;
+            margin: 10px 0px;
+            font-weight: 900;
         }
 
         .loader {
@@ -196,6 +223,34 @@
         </div>   
         <div id="resultados">
         </div>
+        <div id="id_bloco_explicacao" > 
+           
+            <p>
+                A análise de acuracidade é realizada para todo registro de produto, tanto da Avon quanto da Natura, identificamos o tipo de manifestação incluída para avaliar se está correto ou incorreto.
+                <br>
+                O cálculo é baseado no total de registros, divididos pelas sinalizações de Errado e Sem Detalhamento.
+                <br>
+                OBS: Erro Dynamics e registro fora do escopo entram como "certo", pois não foram erros do atendimento.
+            </p>
+            <ul>
+                <li>
+                    <span class="bloco_explicacao_destaque">CERTO</span>: O tipo de manifestação está correto.
+                </li>
+                <li>
+                    <span class="bloco_explicacao_destaque">ERRO DYNAMICS</span>: O tipo de manifestação não foi possível incluir por algum erro Dynamics.
+                </li>
+                <li>
+                    <span class="bloco_explicacao_destaque">REGISTRO FORA DO ESCOPO</span>: Registros que não foi possível avaliar, pois estão fora do escopo da qualidade.
+                </li>
+                <li>
+                    <span class="bloco_explicacao_destaque">ERRADO</span>: O tipo de manifestação está errado.
+                </li>
+                <li>
+                    <span class="bloco_explicacao_destaque">SEM DETALHAMENTO</span>: Não foi possível avaliar, pois está sem informações do motivo da troca/devolução.
+                </li>
+
+            </ul>
+        </div>  
     </div>
 </body>
 <script src="./fun_global.js"></script>

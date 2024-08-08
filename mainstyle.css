@@ -6,11 +6,10 @@
 body {
     margin: 0;
     padding: 0;
-    /*background-color: #f3f3f3;*/
     background: linear-gradient(
-        90deg, /* Ângulo do gradiente */
-        rgba(128, 0, 128, 0.7),  /* Roxo com transparência */
-        rgba(255, 0, 0, 0.7)    /* Vermelho com transparência */
+        90deg, 
+        rgba(128, 0, 128, 0.6), 
+        rgba(255, 0, 0, 0.6)   
       );
 }
 
