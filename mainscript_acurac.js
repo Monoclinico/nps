@@ -60,6 +60,9 @@ function pesquisarNome(pesquisaCPF){
                 let iCPF = parseInt(encontrarChavePorValor(objColunas1, "CPF"));
                 let iNome1 = parseInt(encontrarChavePorValor(objColunas1, "NOME1"));
                 let iNome2 = parseInt(encontrarChavePorValor(objColunas1, "NOME2"));
+                let iNome3 = parseInt(encontrarChavePorValor(objColunas1, "NOME3"));
+                let iNome4 = parseInt(encontrarChavePorValor(objColunas1, "NOME4"));
+
 
                 let filtro2 = filtro.filter((k) =>{
                     let r1 = false;
@@ -79,6 +82,9 @@ function pesquisarNome(pesquisaCPF){
 
                 let nome1 = "";
                 let nome2 = "";
+                let nome3 = "";
+                let nome4 = "";
+
                 if(filtro2.length > 0) {
                     for (const valor of filtro2) {
                         if (valor[iNome1] != null){
@@ -91,12 +97,24 @@ function pesquisarNome(pesquisaCPF){
                                 nome2 = valor[iNome2].v.toString().trim().toUpperCase();
                             }
                         }
+                        if (valor[iNome3] != null){
+                            if (valor[iNome3].v !=null) {
+                                nome3 = valor[iNome3].v.toString().trim().toUpperCase();
+                            }
+                        }
+                        if (valor[iNome4] != null){
+                            if (valor[iNome4].v !=null) {
+                                nome4 = valor[iNome4].v.toString().trim().toUpperCase();
+                            }
+                        }
                     }
                 }
 
                 dadosCPF = {
                     n1: nome1, 
-                    n2: nome2
+                    n2: nome2,
+                    n3: nome3,
+                    n4: nome4,
                 }
                 
                 pesquisar(dadosCPF);
@@ -156,31 +174,47 @@ function pesquisar(dadosNomes){
                 let iProprietario = parseInt(encontrarChavePorValor(objColunas, "AGENTE"));
                
                 let filtro2 = filtro.filter((k) =>{
-                    let r1 = false;
-                    let r2 = false;
-                    let r3 = false;
-                    let r4 = false;
+                    let r10 = false;
+                    let r11 = false;
+                    let r20 = false;
+                    let r21 = false;
+                    let r30 = false;
+                    let r31 = false;
+                    let r40 = false;
+                    let r41 = false;
   
                     if (k[iProprietario ] != null) {
                         if (k[iProprietario].v != null) {
                             if (dadosNomes["n1"].length > 0){
-                                r1 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n1"]);
+                                r10 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n1"]);
                             }
                             if (dadosNomes["n2"].length > 0){
-                                r2 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n2"]);
+                                r20 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n2"]);
+                            }
+                            if (dadosNomes["n3"].length > 0){
+                                r30 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n3"]);
+                            }
+                            if (dadosNomes["n4"].length > 0){
+                                r40 = k[iProprietario].v.toString().trim().toUpperCase().includes(dadosNomes["n4"]);
                             }
                         }
                         if (k[iProprietario].f != null) {
                             if (dadosNomes["n1"].length > 0){
-                                r3 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n1"]);
+                                r11 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n1"]);
                             }
                             if (dadosNomes["n2"].length > 0){
-                                r4 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n2"]);
+                                r21 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n2"]);
+                            }
+                            if (dadosNomes["n3"].length > 0){
+                                r31 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n3"]);
+                            }
+                            if (dadosNomes["n4"].length > 0){
+                                r41 = k[iProprietario].f.toString().trim().toUpperCase().includes(dadosNomes["n4"]);
                             }
                         }
 
                     }
-                    return (r1 || r2 || r3 || r4);
+                    return (r10 || r11 || r20 || r21 || r30 || r31 || r40 || r41);
                 });
 
                 dadosAcura = filtro2;
@@ -232,7 +266,8 @@ function criarTabelaHTML() {
         tabela.appendChild(thead);
         
         let keys = Object.keys(objColunas);
-        
+        console.log(iData);
+        console.log(dadosAcura);
         for (let y = 0; y < dadosAcura.length;y++) {
 
             let linhaTabela = tbody.insertRow();
@@ -248,7 +283,12 @@ function criarTabelaHTML() {
                         if(dadosAcura[y][x] == null ) {
                             valor = "";
                         }else{
-                            valor = dadosAcura[y][x].f != null ? dadosAcura[y][x].f : "";
+                            if (dadosAcura[y][x].f != null){
+                                valor = dadosAcura[y][x].f;
+                            }else{
+                                valor = dadosAcura[y][x].v != null ? dadosAcura[y][x].v : "";
+                            }
+                            
                         }
 
                     }else{
