@@ -30,7 +30,12 @@ function removerPontosEHifens(texto) {
 }
 
 function inserirBotoesMenu(){
-    let extremidade = "/nps/"; // colocar / se for local host e /nps/ se for github
+    let extremidade = "/"; // colocar / se for local host e /nps/ se for github
+    let host = window.location.hostname;
+    if (host.toString().includes("github")){
+        extremidade = "/nps/";
+    }
+
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
     let caminho_acuracidade = "acuracidade.html";
