@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./imagens/logo_csu.ico">
+    <link rel="stylesheet" href="./mainstyle.css">
+    <title>Simulador de Dano e Defeito</title>
+
+    <style>
+
+        #resultados {
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            position: relative;
+            margin: 5px;
+            width: 99%;
+            z-index: 100000;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0);
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
+        }
+        
+        .quiz-container {
+            width: 100%;
+            max-width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.397);
+            }
+
+        .quiz-card {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 100%; 
+            transition: left 0.4s ease;
+            background-color: #f9f9f9;
+            padding: 20px;
+            box-shadow: none;
+        }
+
+        .quiz-card.active {
+            left: 0; 
+        }
+
+        .quiz-card.exit-left {
+            display: none;
+            left: -100%; 
+        }
+
+        .quiz-card.exit-right {
+            display: none;
+            left: 100%; 
+        }
+
+        .cl_p_cabecalho {
+            display: block;
+            width: 100%;
+            height: auto;
+            font-size: 1em;
+            padding: 5px;
+            color: rgb(255, 255, 255);
+            background-color: #35aeff;
+            text-align: center;
+            margin: 15px 1px;
+            border-radius: 10px;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .cl_select_simulador {
+            width: 100%;
+            max-width: 100%;
+            background-color: #fff7b8;
+            border-radius: 10px;
+            z-index: 1;
+            font-size: 0.8em;
+            font-weight: 800;
+            padding: 5px 0px;
+            box-shadow: 2px 2px 2px rgb(71, 71, 71);
+        }
+
+        .cl_button_cardProximo, .cl_button_cardAnterior {
+            position: relative;
+            display: block;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px 2px;
+            cursor: pointer;
+            width: auto;
+            height: auto;
+            color: #000000;
+            border: none;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            box-shadow: 2px 2px 2px rgb(71, 71, 71);
+        }
+
+        .cl_button_cardProximo {
+            background-color: #19ff00;
+        }
+
+        .cl_button_cardAnterior {
+            background-color: gold;
+        }
+
+
+
+        .cl_p_selectAviso {
+            font-size: 0.8em;
+            color: red;
+            text-align: center;
+        }
+
+        .cl_div_cardBotoes {
+            display: flex;
+            flex-direction: row;
+
+        }
+
+        .cl_p_textoResultado {
+            display: block;
+            width: 100%;
+            font-size: 0.8em;
+            font-weight: 900;
+            color: black;
+            text-align: left;
+            text-transform: uppercase;
+        }
+        .cl_p_textoResultadoManifestacao {
+            color: #0e6b04 !important;
+        }
+
+        .cl_button_reiniciar {
+            position: relative;
+            display: block;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px 2px;
+            cursor: pointer;
+            width: auto;
+            height: auto;
+            color: #000000;
+            background-color: #eda00d;
+            border: none;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            box-shadow: 2px 2px 2px rgb(71, 71, 71);
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="mascara_login">
+        <div class="id_bloco_fundo_login">
+            <div id="id_bloco_login" class="bloco_login">
+                <p id="id_label_login">Login</p>
+                <input id="usuario" type="text" placeholder="Usuário" required>
+                <input id="senha" type="password" placeholder="Senha"  required>
+                <button id="btn_logar" type="submit">Entrar</button>
+                <p id="acesso">Acesso Negado</p>
+            </div>
+        </div>
+        <div id="fora">
+            <p>Estamos atualizando os dados<br>Volte mais tarde</p>
+        </div>
+    </div>
+
+    <div id="mascara_conteudo">
+        <div id="bloco_principal_menu">
+            <div id="bloco_usuario">
+                
+                <div id="bloco_usuario_logo">
+                    <img src="./imagens/csu-digital.svg"/> 
+                </div>
+
+                <div id="bloco_usuario_titulo">
+                    <h1>Simulador de Dano e Defeito</h1>
+                </div>
+            
+                <div id="bloco_usuario_menu">
+                    <button class="bt_opcoes_usuario" id="pagina_nps">
+                        NPS
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_indicadores">
+                        Indicadores
+                    </button>   
+                    <button class="bt_opcoes_usuario" id="pagina_acuracidade">
+                        Acuracidade
+                    </button>
+                    <button class="bt_opcoes_usuario" id="simulador_dano_defeito">
+                        Simulador de Dano e Defeito
+                    </button>  
+                    <button class="bt_opcoes_usuario" id="sair">
+                        Sair
+                    </button>
+                </div> 
+
+            </div>
+
+        </div>   
+        <div id="resultados">
+            <div class="quiz-container">
+   
+            </div>
+
+        </div>
+        
+    </div>
+        
+      
+</body>
+<script src="./fun_global.js"></script>
+<script src="./mainscript_simulador_dano_defeito.js">
+</script>
+</html>

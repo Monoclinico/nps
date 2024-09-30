@@ -39,7 +39,7 @@ function inserirBotoesMenu(){
     let caminho_nps = "index.html";
     let caminho_indicadores = "indicadores.html";
     let caminho_acuracidade = "acuracidade.html";
-    let caminho_chat = "chat.html";
+    let caminho_simulador_dano_defeito = "simulador_dano_defeito.html";
 
     let urlBase = `http://${window.location.hostname}:${window.location.port}${extremidade}`;
 
@@ -47,7 +47,7 @@ function inserirBotoesMenu(){
     let botao_nps = document.getElementById("pagina_nps");
     let botao_indicadores = document.getElementById("pagina_indicadores");
     let botao_acuracidade = document.getElementById("pagina_acuracidade");
-    let botao_chat = document.getElementById("pagina_chat");
+    let botao_chat = document.getElementById("simulador_dano_defeito");
 
     botao_nps.addEventListener("click", function () {
         let url = `${urlBase}${caminho_nps}`; 
@@ -62,7 +62,7 @@ function inserirBotoesMenu(){
         window.open(url.toString(), "_self");
     });
     botao_chat.addEventListener("click", function () {
-        let url = `${urlBase}${caminho_chat}`; 
+        let url = `${urlBase}${caminho_simulador_dano_defeito}`; 
         window.open(url.toString(), "_self");
     });
 
@@ -70,7 +70,7 @@ function inserirBotoesMenu(){
         sessionStorage.clear();
         startSite(true);
         location.reload();
-        console.clear();
+        //console.clear();
     });
 
 }
@@ -120,7 +120,7 @@ function startSite(estado){
         if((u == USUARIO) && (s == SENHA)){
             login();
         }
-        let x = setTimeout(function () { console.clear();}, 3000);
+        let x = setTimeout(function () { /*console.clear();*/}, 3000);
     }else{
         document.getElementById("fora").style.display = "block";
 
