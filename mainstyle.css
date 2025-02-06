@@ -241,6 +241,7 @@ body {
 }
 
 #pagina_acuracidade {
+    display: none;
     background-color: #35aeff;
 }
 
